@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 import sys
 import pymysql
+import dj_database_url
 pymysql.install_as_MySQLdb()
 
 # Load environment variables from .env if available
@@ -31,9 +32,13 @@ ROOT_DIR = BASE_DIR.parent
 FRONTEND_DIR = ROOT_DIR / 'frontend'
 
 # Security settings
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'ashwa-logistics-super-secret-key-2026-secure')
-DEBUG = os.getenv('DJANGO_DEBUG', 'True').lower() == 'true'
-ALLOWED_HOSTS = ['*'] if DEBUG else [h.strip() for h in os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',') if h.strip()]
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() == 'true'
+ALLOWED_HOSTS = [
+    h.strip()
+    for h in os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+    if h.strip()
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -86,62 +91,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ashwa.wsgi.application'
 
-# Database Configuration with intelligent resilience
-# If MySQL is explicitly configured and accessible, use MySQL; otherwise fall back to SQLite
-def configure_database():
-    req_engine = os.getenv('DB_ENGINE', '').strip()
-    db_name = os.getenv('DB_NAME', 'ashwa_logistics')
-    db_user = os.getenv('DB_USER', 'root')
-    db_pass = os.getenv('DB_PASSWORD', 'root')
-    db_host = os.getenv('DB_HOST', '127.0.0.1')
-    db_port = int(os.getenv('DB_PORT', '3306'))
-
-    # If user explicitly wants mysql or if configured, test connection
-    if req_engine == 'django.db.backends.mysql':
-        try:
-            import MySQLdb
-            test_conn = MySQLdb.connect(
-                host=db_host,
-                user=db_user,
-                password=db_pass,
-                port=db_port,
-                connect_timeout=2
-            )
-            test_conn.close()
-            return {
-                'default': {
-                    'ENGINE': 'django.db.backends.mysql',
-                    'NAME': db_name,
-                    'USER': db_user,
-                    'PASSWORD': db_pass,
-                    'HOST': db_host,
-                    'PORT': str(db_port),
-                }
-            }
-        except Exception as e:
-            print(f"[Ashwa DB Warning] Could not connect to MySQL ({e}). Falling back to SQLite.")
-
-    # SQLite fallback
-    return {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-
-# =========================================================
-# MYSQL DATABASE CONFIGURATION
-# =========================================================
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ashwa_logistics',
-        'USER': 'root',
-        'PASSWORD': 'Vamsi@2004',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 # Password validation
