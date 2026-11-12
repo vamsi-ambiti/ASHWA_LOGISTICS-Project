@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ashwa Logistics — Operations Admin Login</title>
+  <link rel="stylesheet" href="/static/css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="admin-bg"></div>
+
+  <main class="admin-login-card">
+    <img src="/static/background/logo.jpeg" alt="Logo" class="admin-logo">
+    <h1>Operations Portal</h1>
+    <p>Secure access for Ashwa Logistics staff & management</p>
+
+    <form id="adminLoginForm">
+      <input id="username" type="text" placeholder="Admin Username or Email" autocomplete="username" required autofocus>
+      <input id="password" type="password" placeholder="Password" autocomplete="current-password" required>
+      <button type="submit" id="submitBtn">Sign In to Dashboard</button>
+      <div id="error"></div>
+    </form>
+
+    <a href="/" class="back-link">← Return to Public Website</a>
+  </main>
+
+  <script src="/static/js/app.js"></script>
+  <script>
+    // If already logged in as staff, redirect straight to dashboard
+    window.onload = async () => {
+      const user = await getCurrentUser();
+      if (user && user.is_staff) {
+        location.href = '/admin/dashboard/';
+      }
+    };
+
+    document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const errBox = document.getElementById('error');
+      errBox.innerText = '';
+      btn.disabled = true;
+      btn.innerText = 'Authenticating...';
+
+      try {
+        const data = await apiPost('/api/admin/login/', {
+          username: document.getElementById('username').value.trim(),
+          password: document.getElementById('password').value
+        });
+        if (data && data.user) {
+          localStorage.setItem('user', JSON.stringify(data.user));
+        }
+        if (data && data.token) {
+          localStorage.setItem('token', data.token);
+        }
+        location.href = '/admin/dashboard/';
+      } catch (err) {
+        errBox.innerText = err.message || 'Login failed. Please verify credentials.';
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Sign In to Dashboard';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,3944 @@
+:root {
+  --primary: #ff2e63;
+  --primary-hover: #e02655;
+  --secondary: #08d9d6;
+  --dark-bg: #0f172a;
+  --sidebar-bg: #1e293b;
+  --card-bg: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+  --danger: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  background: #f1f5f9;
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+/* ==========================================
+   ADMIN LOGIN PAGE
+   ========================================== */
+.admin-bg {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top right, #1e1b4b, #0f172a 70%);
+  z-index: -1;
+}
+
+.admin-login-card {
+  width: min(440px, 92%);
+  margin: 10vh auto;
+  padding: 40px;
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  backdrop-filter: blur(16px);
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+}
+
+.admin-logo {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary);
+  box-shadow: 0 0 20px rgba(255, 46, 99, 0.4);
+}
+
+.admin-login-card h1 {
+  margin: 16px 0 6px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.admin-login-card p {
+  color: #94a3b8;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.admin-login-card input {
+  width: 100%;
+  padding: 14px 16px;
+  margin: 8px 0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.6);
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.admin-login-card input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255, 46, 99, 0.25);
+}
+
+.admin-login-card button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 16px;
+  border: none;
+  border-radius: 30px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.admin-login-card button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.admin-login-card #error {
+  color: #f87171;
+  font-size: 13px;
+  margin-top: 14px;
+  min-height: 20px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 24px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.back-link:hover {
+  color: #fff;
+}
+
+/* ==========================================
+   ADMIN DASHBOARD LAYOUT
+   ========================================== */
+.admin-header {
+  height: 70px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.brand img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+}
+
+.brand-badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  background: #fee2e2;
+  color: var(--primary);
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.live-time {
+  font-size: 13px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.site-link {
+  color: #334155;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  transition: 0.2s;
+}
+
+.site-link:hover {
+  background: #e2e8f0;
+}
+
+.admin-user-pill {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logout-btn {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+/* Nav Tabs */
+.admin-nav {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.nav-tab {
+  padding: 14px 18px;
+  border: none;
+  background: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.nav-tab:hover {
+  color: var(--primary);
+}
+
+.nav-tab.active {
+  color: var(--primary);
+}
+
+.nav-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 3px 3px 0 0;
+}
+
+.badge-count {
+  background: #fee2e2;
+  color: var(--primary);
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+/* Main Container */
+.dashboard-body {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 30px 32px;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* Section Header */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.section-head h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.section-head p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.action-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+.btn-danger {
+  background: #fee2e2;
+  color: #dc2626;
+}
+.btn-danger:hover {
+  background: #fecaca;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+/* Filters & Search */
+.search-input {
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  min-width: 240px;
+  background: #fff;
+}
+
+.search-input:focus {
+  border-color: var(--primary);
+}
+
+.filter-select {
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* KPI Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.stat-info b {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.stat-info small {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Charts Grid */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-bottom: 28px;
+}
+
+.panel {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  margin-bottom: 24px;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.panel-head h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 13px;
+}
+
+th, td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background: #f8fafc;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* Badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.status-badge.created { background: #e0f2fe; color: #0369a1; }
+.status-badge.pending { background: #fef3c7; color: #b45309; }
+.status-badge.in_transit { background: #dbeafe; color: #1d4ed8; }
+.status-badge.out_for_delivery { background: #ede9fe; color: #6d28d9; }
+.status-badge.delivered { background: #d1fae5; color: #047857; }
+.status-badge.cancelled { background: #fee2e2; color: #b91c1c; }
+
+.status-badge.open, .status-badge.pending_status { background: #fef3c7; color: #b45309; }
+.status-badge.in_progress { background: #dbeafe; color: #1d4ed8; }
+.status-badge.resolved { background: #d1fae5; color: #047857; }
+.status-badge.unread { background: #fee2e2; color: #b91c1c; }
+.status-badge.read { background: #f1f5f9; color: #64748b; }
+
+/* Modals */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal-card {
+  background: #fff;
+  border-radius: 18px;
+  width: min(520px, 95%);
+  padding: 28px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: modalIn 0.25s ease-out;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-card h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #0f172a;
+}
+
+.modal-card p.sub {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255, 46, 99, 0.15);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 24px;
+  margin-top: 15px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: #cbd5e1;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -24px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.timeline-item b {
+  display: block;
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.timeline-item small {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.timeline-item p {
+  font-size: 12px;
+  color: #475569;
+  margin-top: 3px;
+}
+
+/* Toast Notifications */
+#toastContainer {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast {
+  padding: 12px 20px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: toastIn 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 280px;
+}
+
+.toast.success { background: #059669; }
+.toast.error { background: #dc2626; }
+.toast.info { background: #2563eb; }
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    padding: 0 16px;
+    height: auto;
+    padding: 14px 16px;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .admin-nav {
+    padding: 0 16px;
+  }
+  .dashboard-body {
+    padding: 20px 16px;
+  }
+  .action-bar {
+    width: 100%;
+  }
+  .search-input {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   ASHWA LOGISTICS - PREMIUM ADMIN THEME
+   CSS ONLY - EXISTING FUNCTIONALITY PRESERVED
+   ========================================================= */
+
+body {
+    background: #f5f7fb;
+}
+
+/* Sidebar */
+.sidebar {
+    box-shadow: 8px 0 30px rgba(15,23,42,0.08);
+}
+
+.sidebar a,
+.sidebar button {
+    transition: 0.25s ease;
+}
+
+.sidebar a:hover,
+.sidebar button:hover {
+    transform: translateX(3px);
+}
+
+/* Main content */
+.main-content {
+    background: #f5f7fb;
+}
+
+/* Cards */
+.card,
+.dashboard-card,
+.stat-card {
+    border: 1px solid #e8edf3;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(15,23,42,0.06);
+    transition: 0.25s ease;
+}
+
+.card:hover,
+.dashboard-card:hover,
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(15,23,42,0.10);
+}
+
+/* Buttons */
+button,
+.btn {
+    transition: 0.25s ease;
+}
+
+button:hover,
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Tables */
+table {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+thead th {
+    font-weight: 700;
+}
+
+tbody tr {
+    transition: 0.2s ease;
+}
+
+tbody tr:hover {
+    background: #fff7f2;
+}
+
+/* Inputs */
+input,
+select,
+textarea {
+    transition: 0.25s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #ff2e63;
+    box-shadow: 0 0 0 3px rgba(255,46,99,0.10);
+    outline: none;
+}
+
+/* Admin login */
+.admin-login,
+.login-container {
+    box-shadow: 0 25px 70px rgba(15,23,42,0.15);
+    border-radius: 22px;
+}
+
+/* Badges */
+.badge {
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #eef1f5;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c5ccd6;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #98a2b3;
+}
+
+/* =========================================================
+   ASHWA LOGISTICS
+   ADMIN — ULTRA MINIMAL / MOBILE FIRST / PREMIUM UX
+   ========================================================= */
+
+:root {
+    --admin-orange: #ff6a00;
+    --admin-orange-light: #ff8a3d;
+    --admin-bg: #f5f7fa;
+    --admin-card: #ffffff;
+    --admin-text: #101828;
+    --admin-muted: #667085;
+    --admin-border: #eaecf0;
+    --admin-radius: 16px;
+}
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--admin-bg);
+    color: var(--admin-text);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.card,
+.dashboard-card,
+.stat-card {
+    background: var(--admin-card);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    box-shadow:
+        0 8px 30px rgba(16,24,40,.055);
+    transition:
+        transform .3s cubic-bezier(.2,.8,.2,1),
+        box-shadow .3s ease,
+        border-color .3s ease;
+}
+
+.card:hover,
+.dashboard-card:hover,
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 18px 45px rgba(16,24,40,.10);
+    border-color: rgba(255,106,0,.18);
+}
+
+/* =========================================================
+   STAT NUMBERS
+   ========================================================= */
+
+.stat-card h2,
+.stat-card h3,
+.stat-card .number {
+    color: var(--admin-text);
+    font-weight: 800;
+}
+
+.stat-card p,
+.stat-card .label {
+    color: var(--admin-muted);
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button,
+.btn {
+    min-height: 44px;
+    border-radius: 10px;
+    font-weight: 700;
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        opacity .2s ease;
+}
+
+button:hover,
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+button:active,
+.btn:active {
+    transform: scale(.97);
+}
+
+/* =========================================================
+   FORM CONTROLS
+   ========================================================= */
+
+input,
+select,
+textarea {
+    min-height: 44px;
+    border-radius: 10px;
+    border: 1px solid var(--admin-border);
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--admin-orange);
+    box-shadow:
+        0 0 0 4px rgba(255,106,0,.09);
+}
+
+textarea {
+    min-height: 100px;
+}
+
+/* =========================================================
+   TABLE UX
+   ========================================================= */
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+}
+
+thead th {
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+tbody tr {
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+tbody tr:hover {
+    background: #fff8f3;
+}
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.badge {
+    border-radius: 999px;
+    font-weight: 700;
+    padding: 5px 10px;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+    box-shadow:
+        8px 0 30px rgba(16,24,40,.08);
+}
+
+.sidebar a,
+.sidebar button {
+    border-radius: 10px;
+    transition:
+        background .25s ease,
+        color .25s ease,
+        transform .25s ease;
+}
+
+.sidebar a:hover,
+.sidebar button:hover {
+    transform: translateX(3px);
+}
+
+/* =========================================================
+   MOBILE DASHBOARD
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    .main-content {
+        width: 100%;
+        padding: 16px !important;
+    }
+
+    .card,
+    .dashboard-card,
+    .stat-card {
+        border-radius: 14px;
+    }
+
+    .card:hover,
+    .dashboard-card:hover,
+    .stat-card:hover {
+        transform: none;
+    }
+
+    /* Prevent tables from breaking mobile layout */
+    .table-container,
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        min-width: 650px;
+    }
+
+    /* Stack common dashboard grids */
+    .dashboard-grid,
+    .stats-grid,
+    .card-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    /* Buttons */
+    button,
+    .btn {
+        min-height: 46px;
+    }
+
+    /* Form controls */
+    input,
+    select,
+    textarea {
+        width: 100%;
+        font-size: 16px;
+    }
+}
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .main-content {
+        padding: 12px !important;
+    }
+
+    .card,
+    .dashboard-card,
+    .stat-card {
+        padding: 16px !important;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    h3 {
+        font-size: 1.05rem;
+    }
+}
+
+/* =========================================================
+   SMOOTH PAGE ENTRY
+   ========================================================= */
+
+.main-content {
+    animation: adminPageIn .5s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes adminPageIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f3f6;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c7cdd5;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #98a2b3;
+}
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* =========================================================
+   STEP 14
+   ASHWA ADMIN DASHBOARD — MOBILE UX
+   ========================================================= */
+
+/* Smooth dashboard elements */
+.card,
+.dashboard-card,
+.stat-card,
+.sidebar,
+.main-content {
+    will-change: transform;
+}
+
+/* Better headings */
+.main-content h1,
+.main-content h2,
+.main-content h3 {
+    letter-spacing: -0.3px;
+}
+
+/* =========================================================
+   DESKTOP DASHBOARD POLISH
+   ========================================================= */
+
+@media (min-width: 769px) {
+
+    .main-content {
+        padding: 28px !important;
+    }
+
+    .card,
+    .dashboard-card,
+    .stat-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card::after,
+    .dashboard-card::after,
+    .stat-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(
+            90deg,
+            var(--admin-orange),
+            var(--admin-orange-light)
+        );
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .35s ease;
+    }
+
+    .card:hover::after,
+    .dashboard-card:hover::after,
+    .stat-card:hover::after {
+        transform: scaleX(1);
+    }
+}
+
+/* =========================================================
+   MOBILE DASHBOARD
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* Main page */
+    .main-content {
+        padding: 14px !important;
+        min-width: 0;
+    }
+
+    /* Dashboard headings */
+    .main-content h1 {
+        font-size: 1.55rem;
+        line-height: 1.2;
+        margin-bottom: 6px;
+    }
+
+    .main-content h2 {
+        font-size: 1.25rem;
+    }
+
+    .main-content h3 {
+        font-size: 1.05rem;
+    }
+
+    /* Cards */
+    .card,
+    .dashboard-card,
+    .stat-card {
+        width: 100%;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    /* Disable desktop hover movement on touch */
+    .card:hover,
+    .dashboard-card:hover,
+    .stat-card:hover {
+        transform: none;
+    }
+
+    /* Better card spacing */
+    .card + .card,
+    .dashboard-card + .dashboard-card,
+    .stat-card + .stat-card {
+        margin-top: 12px;
+    }
+
+    /* =====================================================
+       FLEXIBLE DASHBOARD LAYOUT
+       ===================================================== */
+
+    .dashboard-grid,
+    .stats-grid,
+    .card-grid,
+    .cards-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+        width: 100%;
+    }
+
+    /* =====================================================
+       STAT CARDS
+       ===================================================== */
+
+    .stat-card {
+        min-height: 105px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .stat-card h2,
+    .stat-card h3,
+    .stat-card .number {
+        font-size: 1.5rem;
+    }
+
+    /* =====================================================
+       FORMS
+       ===================================================== */
+
+    form {
+        width: 100%;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        max-width: 100%;
+        font-size: 16px !important;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    /* =====================================================
+       BUTTONS
+       ===================================================== */
+
+    button,
+    .btn {
+        min-height: 46px;
+        padding: 10px 15px;
+    }
+
+    /* Full width only when naturally inside form */
+    form button {
+        max-width: 100%;
+    }
+
+    /* =====================================================
+       TABLES
+       ===================================================== */
+
+    .table-container,
+    .table-responsive {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-radius: 12px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    table {
+        min-width: 680px;
+        font-size: 13px;
+    }
+
+    th,
+    td {
+        padding: 11px 12px;
+        white-space: nowrap;
+    }
+
+    /* =====================================================
+       MOBILE ACTION AREAS
+       ===================================================== */
+
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .actions button,
+    .actions .btn {
+        flex: 1 1 auto;
+    }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 390px) {
+
+    .main-content {
+        padding: 10px !important;
+    }
+
+    .main-content h1 {
+        font-size: 1.4rem;
+    }
+
+    .card,
+    .dashboard-card,
+    .stat-card {
+        border-radius: 13px;
+    }
+
+    table {
+        min-width: 620px;
+    }
+
+    th,
+    td {
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+
+    button,
+    .btn {
+        min-height: 44px;
+    }
+}
+/* =========================================================
+   STEP 15 — PREMIUM ADMIN LOGIN UI
+   CSS ONLY — NO FUNCTIONALITY CHANGES
+   ========================================================= */
+
+/* Admin login page */
+.admin-login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 46, 99, 0.12), transparent 30%),
+    radial-gradient(circle at 85% 80%, rgba(8, 217, 214, 0.10), transparent 30%),
+    linear-gradient(135deg, #f8fafc, #eef2f7);
+}
+
+/* Login container */
+.admin-login-page .login-container,
+.admin-login-page .login-box,
+.admin-login-page section {
+  animation: adminLoginEnter 0.7s cubic-bezier(.22,1,.36,1);
+}
+
+/* Premium card */
+.admin-login-page .login-container,
+.admin-login-page .login-box {
+  width: min(100%, 430px);
+  padding: 38px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(255,255,255,.8);
+  box-shadow:
+    0 25px 70px rgba(15,23,42,.14),
+    0 8px 25px rgba(15,23,42,.06);
+  backdrop-filter: blur(18px);
+}
+
+/* Heading */
+.admin-login-page h1,
+.admin-login-page h2 {
+  letter-spacing: -.5px;
+  margin-bottom: 8px;
+}
+
+/* Subtitle */
+.admin-login-page .subtitle {
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+
+/* Form groups */
+.admin-login-page .form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+/* Inputs */
+.admin-login-page input,
+.admin-login-page select {
+  width: 100%;
+  min-height: 50px;
+  border-radius: 13px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  padding: 13px 15px;
+  color: var(--text-main);
+  transition:
+    border-color .25s ease,
+    box-shadow .25s ease,
+    background .25s ease,
+    transform .25s ease;
+}
+
+/* Input focus */
+.admin-login-page input:focus,
+.admin-login-page select:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--primary);
+  box-shadow:
+    0 0 0 4px rgba(255,46,99,.10),
+    0 8px 22px rgba(15,23,42,.06);
+  transform: translateY(-1px);
+}
+
+/* Labels */
+.admin-login-page label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* Login button */
+.admin-login-page button,
+.admin-login-page .btn,
+.admin-login-page input[type="submit"] {
+  width: 100%;
+  min-height: 50px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    #ff5c8a
+  );
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: .2px;
+  cursor: pointer;
+  box-shadow:
+    0 12px 25px rgba(255,46,99,.22);
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    filter .25s ease;
+}
+
+/* Button hover */
+.admin-login-page button:hover,
+.admin-login-page .btn:hover,
+.admin-login-page input[type="submit"]:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+  box-shadow:
+    0 16px 32px rgba(255,46,99,.28);
+}
+
+/* Button click */
+.admin-login-page button:active,
+.admin-login-page .btn:active,
+.admin-login-page input[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Links */
+.admin-login-page a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color .2s ease;
+}
+
+.admin-login-page a:hover {
+  color: var(--primary-hover);
+}
+
+/* Error / alert messages */
+.admin-login-page .error,
+.admin-login-page .alert,
+.admin-login-page .message {
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  animation: adminAlertIn .35s ease;
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+
+  .admin-login-page {
+    padding: 16px;
+  }
+
+  .admin-login-page .login-container,
+  .admin-login-page .login-box {
+    padding: 28px 22px;
+    border-radius: 20px;
+  }
+
+  .admin-login-page h1,
+  .admin-login-page h2 {
+    font-size: 24px;
+  }
+
+  .admin-login-page input,
+  .admin-login-page select,
+  .admin-login-page button,
+  .admin-login-page .btn,
+  .admin-login-page input[type="submit"] {
+    min-height: 48px;
+  }
+}
+
+/* Extra-small phones */
+@media (max-width: 380px) {
+
+  .admin-login-page {
+    padding: 12px;
+  }
+
+  .admin-login-page .login-container,
+  .admin-login-page .login-box {
+    padding: 24px 18px;
+  }
+}
+
+/* Entry animation */
+@keyframes adminLoginEnter {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Alert animation */
+@keyframes adminAlertIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+  .admin-login-page .login-container,
+  .admin-login-page .login-box,
+  .admin-login-page .error,
+  .admin-login-page .alert,
+  .admin-login-page .message {
+    animation: none;
+  }
+
+  .admin-login-page input,
+  .admin-login-page button,
+  .admin-login-page .btn {
+    transition: none;
+  }
+}
+/* =========================================================
+   STEP 16 — ULTRA-MINIMAL ADMIN MOTION & UX POLISH
+   ========================================================= */
+
+/* Smooth page rendering */
+.admin-layout,
+.admin-container,
+.dashboard,
+.main-content {
+  animation: adminPageFade .55s ease both;
+}
+
+/* Sidebar links */
+.sidebar a,
+.sidebar li,
+.nav-link {
+  transition:
+    transform .22s ease,
+    background-color .22s ease,
+    color .22s ease,
+    padding-left .22s ease;
+}
+
+.sidebar a:hover,
+.nav-link:hover {
+  transform: translateX(4px);
+}
+
+/* Dashboard cards */
+.card,
+.dashboard-card,
+.stat-card,
+.info-card {
+  transition:
+    transform .28s cubic-bezier(.22,1,.36,1),
+    box-shadow .28s ease,
+    border-color .28s ease;
+}
+
+.card:hover,
+.dashboard-card:hover,
+.stat-card:hover,
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 18px 40px rgba(15,23,42,.10);
+}
+
+/* Icons inside cards */
+.card i,
+.card svg,
+.dashboard-card i,
+.stat-card i {
+  transition:
+    transform .3s ease,
+    opacity .3s ease;
+}
+
+.card:hover i,
+.card:hover svg,
+.dashboard-card:hover i,
+.stat-card:hover i {
+  transform: scale(1.08);
+}
+
+/* Buttons */
+button,
+.btn,
+.action-btn,
+a.btn {
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    background-color .2s ease,
+    opacity .2s ease;
+}
+
+button:hover,
+.btn:hover,
+.action-btn:hover,
+a.btn:hover {
+  transform: translateY(-2px);
+}
+
+button:active,
+.btn:active,
+.action-btn:active,
+a.btn:active {
+  transform: translateY(0);
+}
+
+/* Table rows */
+table tbody tr {
+  transition:
+    background-color .2s ease,
+    transform .2s ease;
+}
+
+table tbody tr:hover {
+  background-color: rgba(255,46,99,.035);
+}
+
+/* Form controls */
+input,
+textarea,
+select {
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background-color .2s ease;
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: #cbd5e1;
+}
+
+/* Search/filter controls */
+.search-box,
+.filter-box {
+  transition:
+    box-shadow .25s ease,
+    transform .25s ease;
+}
+
+.search-box:focus-within,
+.filter-box:focus-within {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(15,23,42,.07);
+}
+
+/* Status badges */
+.badge,
+.status,
+.status-badge {
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.badge:hover,
+.status:hover,
+.status-badge:hover {
+  transform: translateY(-1px);
+}
+
+/* Modal / popup polish */
+.modal,
+.modal-content,
+.popup,
+.dropdown-menu {
+  animation: adminPopup .25s cubic-bezier(.22,1,.36,1);
+}
+
+/* Loading feel */
+.loading,
+.spinner {
+  animation: adminPulse 1.4s ease-in-out infinite;
+}
+
+/* Page fade */
+@keyframes adminPageFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Popup animation */
+@keyframes adminPopup {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Subtle loading animation */
+@keyframes adminPulse {
+  0%, 100% {
+    opacity: .55;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Mobile motion */
+@media (max-width: 768px) {
+
+  .card:hover,
+  .dashboard-card:hover,
+  .stat-card:hover,
+  .info-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .sidebar a:hover,
+  .nav-link:hover {
+    transform: none;
+  }
+
+  button:hover,
+  .btn:hover,
+  .action-btn:hover,
+  a.btn:hover {
+    transform: none;
+  }
+}
+
+/* Reduce motion when requested by device */
+@media (prefers-reduced-motion: reduce) {
+
+  .admin-layout,
+  .admin-container,
+  .dashboard,
+  .main-content,
+  .modal,
+  .modal-content,
+  .popup,
+  .dropdown-menu,
+  .loading,
+  .spinner {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================================
+   STEP 22 — ACTUAL ADMIN LOGIN PAGE POLISH
+   Matches existing admin_login.html
+   CSS ONLY
+   ========================================================= */
+
+.admin-bg {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(255, 46, 99, .12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(8, 217, 214, .10),
+      transparent 30%
+    ),
+    linear-gradient(135deg, #f8fafc, #e2e8f0);
+}
+
+/* Login card */
+.admin-login-card {
+  width: min(100%, 430px);
+  padding: 40px 34px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.94);
+  border: 1px solid rgba(255,255,255,.85);
+  box-shadow:
+    0 25px 70px rgba(15,23,42,.15),
+    0 8px 25px rgba(15,23,42,.06);
+  backdrop-filter: blur(18px);
+  animation: realAdminLoginIn .65s cubic-bezier(.22,1,.36,1);
+}
+
+/* Logo */
+.admin-logo {
+  text-align: center;
+  transition: transform .25s ease;
+}
+
+.admin-logo:hover {
+  transform: translateY(-2px);
+}
+
+/* Form inputs */
+.admin-login-card input {
+  width: 100%;
+  min-height: 50px;
+  border-radius: 13px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  padding: 12px 15px;
+  color: var(--text-main);
+  transition:
+    border-color .25s ease,
+    box-shadow .25s ease,
+    transform .2s ease;
+}
+
+.admin-login-card input:hover {
+  border-color: #cbd5e1;
+}
+
+.admin-login-card input:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--primary);
+  box-shadow:
+    0 0 0 4px rgba(255,46,99,.10);
+  transform: translateY(-1px);
+}
+
+/* Submit button */
+.admin-login-card button,
+#submitBtn {
+  width: 100%;
+  min-height: 50px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    #ff5c8a
+  );
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow:
+    0 12px 25px rgba(255,46,99,.22);
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    filter .25s ease;
+}
+
+.admin-login-card button:hover,
+#submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 32px rgba(255,46,99,.28);
+  filter: brightness(1.03);
+}
+
+.admin-login-card button:active,
+#submitBtn:active {
+  transform: scale(.98);
+}
+
+/* Back link */
+.back-link {
+  transition:
+    color .2s ease,
+    transform .2s ease;
+}
+
+.back-link:hover {
+  transform: translateX(-3px);
+}
+
+/* Error message */
+#error {
+  animation: adminErrorIn .3s ease;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+  .admin-bg {
+    padding: 14px;
+  }
+
+  .admin-login-card {
+    padding: 30px 22px;
+    border-radius: 20px;
+  }
+
+  .admin-login-card input,
+  .admin-login-card button,
+  #submitBtn {
+    min-height: 48px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+
+  .admin-bg {
+    padding: 10px;
+  }
+
+  .admin-login-card {
+    padding: 25px 18px;
+    border-radius: 18px;
+  }
+}
+
+/* Animations */
+@keyframes realAdminLoginIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes adminErrorIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+  .admin-login-card,
+  #error {
+    animation: none !important;
+  }
+
+  .admin-login-card input,
+  .admin-login-card button,
+  #submitBtn,
+  .back-link {
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   STEP 23 — ADMIN DASHBOARD EXACT UI POLISH
+   Matches current admin_dashboard.html
+   CSS ONLY
+   ========================================================= */
+
+/* Dashboard background */
+body {
+  background: #f6f8fb;
+}
+
+/* =========================
+   ADMIN HEADER
+   ========================= */
+
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 18px rgba(15,23,42,.06);
+  backdrop-filter: blur(14px);
+  transition: box-shadow .25s ease;
+}
+
+.brand {
+  transition: transform .25s ease;
+}
+
+.brand:hover {
+  transform: translateY(-1px);
+}
+
+.brand-badge {
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.brand-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 7px 18px rgba(255,46,99,.18);
+}
+
+/* Admin user */
+.admin-user-pill {
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.admin-user-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 7px 18px rgba(15,23,42,.08);
+}
+
+/* =========================
+   NAVIGATION
+   ========================= */
+
+.admin-nav {
+  position: sticky;
+  top: 70px;
+  z-index: 900;
+  backdrop-filter: blur(12px);
+}
+
+.nav-tab {
+  position: relative;
+  transition:
+    color .2s ease,
+    background-color .2s ease,
+    transform .2s ease;
+}
+
+.nav-tab::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  border-radius: 20px;
+  background: var(--primary);
+  transform: translateX(-50%);
+  transition: width .25s ease;
+}
+
+.nav-tab:hover {
+  transform: translateY(-1px);
+}
+
+.nav-tab:hover::after,
+.nav-tab.active::after {
+  width: 70%;
+}
+
+/* =========================
+   DASHBOARD CONTENT
+   ========================= */
+
+.dashboard-body {
+  animation: dashboardContentIn .5s ease both;
+}
+
+/* =========================
+   STATISTICS
+   ========================= */
+
+.stats-grid {
+  gap: 18px;
+}
+
+.stats-grid > * {
+  transition:
+    transform .28s cubic-bezier(.22,1,.36,1),
+    box-shadow .28s ease;
+}
+
+.stats-grid > *:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 18px 38px rgba(15,23,42,.10);
+}
+
+/* =========================
+   CHARTS
+   ========================= */
+
+.charts-grid {
+  gap: 20px;
+}
+
+.charts-grid > * {
+  transition:
+    transform .28s ease,
+    box-shadow .28s ease;
+}
+
+.charts-grid > *:hover {
+  transform: translateY(-3px);
+}
+
+/* =========================
+   PANELS
+   ========================= */
+
+.panel {
+  border: 1px solid rgba(226,232,240,.85);
+  border-radius: 18px;
+  background: rgba(255,255,255,.96);
+  box-shadow:
+    0 8px 25px rgba(15,23,42,.055);
+  transition:
+    box-shadow .3s ease,
+    transform .3s ease,
+    border-color .3s ease;
+}
+
+.panel:hover {
+  border-color: rgba(203,213,225,.95);
+  box-shadow:
+    0 15px 35px rgba(15,23,42,.08);
+}
+
+.panel-head {
+  gap: 12px;
+}
+
+/* Panel headings */
+.panel-head h2,
+.panel-head h3 {
+  letter-spacing: -.3px;
+}
+
+/* =========================
+   SECTION HEAD
+   ========================= */
+
+.section-head {
+  margin-bottom: 18px;
+}
+
+.section-head h2,
+.section-head h3 {
+  letter-spacing: -.4px;
+}
+
+/* =========================
+   SEARCH + FILTER
+   ========================= */
+
+.action-bar {
+  gap: 12px;
+}
+
+.search-input,
+.filter-select {
+  min-height: 44px;
+  border-radius: 11px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background-color .2s ease,
+    transform .2s ease;
+}
+
+.search-input:focus,
+.filter-select:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--primary);
+  box-shadow:
+    0 0 0 4px rgba(255,46,99,.08);
+  transform: translateY(-1px);
+}
+
+/* =========================
+   TABLES
+   ========================= */
+
+.table-wrap {
+  border-radius: 14px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-wrap table {
+  min-width: 650px;
+}
+
+.table-wrap tbody tr {
+  transition:
+    background-color .2s ease,
+    transform .2s ease;
+}
+
+.table-wrap tbody tr:hover {
+  background: rgba(255,46,99,.025);
+}
+
+/* Table buttons */
+.table-wrap .btn {
+  white-space: nowrap;
+}
+
+/* =========================
+   BUTTONS
+   ========================= */
+
+.btn {
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    filter .2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: scale(.98);
+}
+
+.btn-primary:hover {
+  box-shadow:
+    0 9px 20px rgba(255,46,99,.20);
+}
+
+.btn-secondary:hover {
+  box-shadow:
+    0 7px 16px rgba(15,23,42,.08);
+}
+
+.btn-sm {
+  min-height: 36px;
+}
+
+/* =========================
+   BADGES
+   ========================= */
+
+.badge-count {
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.badge-count:hover {
+  transform: scale(1.04);
+}
+
+/* =========================
+   TIMELINE
+   ========================= */
+
+.timeline {
+  position: relative;
+}
+
+.timeline > * {
+  animation: timelineItemIn .45s ease both;
+}
+
+.timeline > *:nth-child(2) {
+  animation-delay: .05s;
+}
+
+.timeline > *:nth-child(3) {
+  animation-delay: .1s;
+}
+
+.timeline > *:nth-child(4) {
+  animation-delay: .15s;
+}
+
+/* =========================
+   MODALS
+   ========================= */
+
+.modal-overlay {
+  backdrop-filter: blur(5px);
+}
+
+.modal-card {
+  border-radius: 20px;
+  box-shadow:
+    0 30px 80px rgba(15,23,42,.20);
+  animation: modalIn .3s cubic-bezier(.22,1,.36,1);
+}
+
+.modal-actions {
+  gap: 10px;
+}
+
+/* =========================
+   ANIMATIONS
+   ========================= */
+
+@keyframes dashboardContentIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes timelineItemIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================
+   MOBILE DASHBOARD
+   ========================= */
+
+@media (max-width: 768px) {
+
+  .admin-header {
+    position: relative;
+  }
+
+  .admin-nav {
+    position: sticky;
+    top: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-tab {
+    flex: 0 0 auto;
+  }
+
+  .dashboard-body {
+    padding: 16px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input,
+  .filter-select {
+    width: 100%;
+  }
+
+  .panel {
+    border-radius: 15px;
+  }
+
+  .table-wrap {
+    margin-left: -2px;
+    margin-right: -2px;
+  }
+
+  .stats-grid > *:hover,
+  .charts-grid > *:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-body {
+    padding: 12px;
+  }
+
+  .panel {
+    border-radius: 14px;
+  }
+
+  .panel-head,
+  .section-head {
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    min-height: 42px;
+  }
+}
+
+/* Touch devices */
+@media (hover: none) and (pointer: coarse) {
+
+  .panel:hover,
+  .stats-grid > *:hover,
+  .charts-grid > *:hover {
+    transform: none;
+  }
+
+  .btn:hover {
+    transform: none;
+  }
+
+  .nav-tab:hover {
+    transform: none;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+  .dashboard-body,
+  .timeline > *,
+  .modal-card {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   CARD ADJUSTMENT — CLEAN + PREMIUM
+   ========================================================= */
+
+.stats-grid {
+  align-items: stretch;
+}
+
+.stats-grid > * {
+  min-height: 145px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 22px;
+  border-radius: 18px;
+}
+
+/* Keep card content aligned */
+.stats-grid h3,
+.stats-grid h4,
+.stats-grid p {
+  margin: 0;
+}
+
+/* Stat number */
+.stats-grid .stat-value,
+.stats-grid .value,
+.stats-grid strong {
+  line-height: 1.1;
+}
+
+/* Dashboard panels */
+.panel {
+  padding: 22px;
+}
+
+/* Card headings */
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+/* Better spacing between dashboard sections */
+.stats-grid,
+.charts-grid {
+  margin-bottom: 22px;
+}
+
+/* Mobile cards */
+@media (max-width: 768px) {
+
+  .stats-grid {
+    gap: 12px;
+  }
+
+  .stats-grid > * {
+    min-height: 125px;
+    padding: 18px;
+    border-radius: 15px;
+  }
+
+  .panel {
+    padding: 18px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+
+  .stats-grid > * {
+    min-height: 110px;
+    padding: 16px;
+  }
+
+  .panel {
+    padding: 16px;
+  }
+}
+
+/* =========================================================
+   STEP 25 — TABLE / DATA CARD POLISH
+   ========================================================= */
+
+.table-wrap {
+  background: #fff;
+  border: 1px solid rgba(226, 232, 240, .85);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, .045);
+}
+
+.table-wrap table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table-wrap thead th {
+  background: #f8fafc;
+  font-weight: 700;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.table-wrap tbody td {
+  padding: 14px 16px;
+  vertical-align: middle;
+}
+
+.table-wrap tbody tr {
+  border-bottom: 1px solid #eef2f7;
+}
+
+.table-wrap tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table-wrap tbody tr:hover td {
+  background: rgba(255, 46, 99, .025);
+}
+
+.table-wrap .btn {
+  border-radius: 9px;
+  font-weight: 600;
+}
+
+/* Better empty-state appearance */
+.table-wrap td[colspan] {
+  padding: 35px 20px;
+  text-align: center;
+  color: #64748b;
+}
+
+/* Mobile table card */
+@media (max-width: 768px) {
+  .table-wrap {
+    border-radius: 13px;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, .04);
+  }
+
+  .table-wrap tbody td {
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-wrap {
+    border-radius: 11px;
+  }
+
+  .table-wrap tbody td {
+    padding: 11px 12px;
+  }
+}
+
+/* =========================================================
+   STEP 26 — BUTTON / ACTION POLISH
+   ========================================================= */
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.22),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left .55s ease;
+  pointer-events: none;
+}
+
+.btn:hover::after {
+  left: 140%;
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255, 46, 99, .12);
+}
+
+.btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.btn-primary {
+  min-height: 42px;
+  padding: 10px 17px;
+  border-radius: 11px;
+  font-weight: 700;
+}
+
+.btn-secondary {
+  min-height: 42px;
+  padding: 10px 17px;
+  border-radius: 11px;
+  font-weight: 600;
+}
+
+.btn-sm {
+  min-height: 36px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+/* Action groups */
+.action-bar,
+.modal-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .action-bar .btn,
+  .modal-actions .btn {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 420px) {
+  .action-bar,
+  .modal-actions {
+    width: 100%;
+  }
+
+  .action-bar .btn,
+  .modal-actions .btn {
+    flex: 1 1 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn::after {
+    display: none;
+  }
+}
+
+/* =========================================================
+   STEP 27 — MODAL / POPUP POLISH
+   ========================================================= */
+
+.modal-overlay {
+  padding: 20px;
+  background: rgba(15, 23, 42, .48);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+
+.modal-card {
+  width: min(100%, 560px);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, .8);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .97);
+  box-shadow:
+    0 30px 80px rgba(15, 23, 42, .22),
+    0 8px 25px rgba(15, 23, 42, .08);
+  animation: modalPremiumIn .3s cubic-bezier(.22, 1, .36, 1);
+}
+
+.modal-card input,
+.modal-card select,
+.modal-card textarea {
+  width: 100%;
+  border-radius: 11px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background-color .2s ease;
+}
+
+.modal-card input:focus,
+.modal-card select:focus,
+.modal-card textarea:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(255, 46, 99, .08);
+}
+
+.modal-actions {
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+@keyframes modalPremiumIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .modal-card {
+    max-height: calc(100vh - 24px);
+    border-radius: 16px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions .btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-card {
+    animation: none !important;
+  }
+}
+
+/* =========================================================
+   STEP 28 — FORM / INPUT POLISH
+   ========================================================= */
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.search-input,
+.filter-select {
+  min-height: 44px;
+  padding: 10px 13px;
+  border-radius: 11px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  color: var(--text-main);
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background-color .2s ease;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover,
+.search-input:hover,
+.filter-select:hover {
+  border-color: #cbd5e1;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus,
+.search-input:focus,
+.filter-select:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(255, 46, 99, .08);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder,
+.search-input::placeholder {
+  color: #94a3b8;
+}
+
+@media (max-width: 600px) {
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea,
+  .search-input,
+  .filter-select {
+    min-height: 46px;
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-group input,
+  .form-group select,
+  .form-group textarea,
+  .search-input,
+  .filter-select {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   STEP 29 — ADMIN HEADER POLISH
+   ========================================================= */
+
+.admin-header {
+  min-height: 70px;
+  background: rgba(255,255,255,.94);
+  border-bottom: 1px solid rgba(226,232,240,.8);
+}
+
+.brand {
+  text-decoration: none;
+}
+
+.brand-badge {
+  box-shadow: 0 6px 18px rgba(255,46,99,.16);
+}
+
+.header-right {
+  gap: 12px;
+}
+
+.live-time {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .2px;
+}
+
+.site-link {
+  transition:
+    color .2s ease,
+    transform .2s ease;
+}
+
+.site-link:hover {
+  transform: translateY(-1px);
+}
+
+.admin-user-pill {
+  min-height: 40px;
+  padding: 7px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.logout-btn {
+  min-height: 40px;
+  border-radius: 10px;
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.logout-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 7px 16px rgba(15,23,42,.08);
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    min-height: auto;
+    padding: 12px 16px;
+  }
+
+  .header-right {
+    gap: 8px;
+  }
+
+  .live-time {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .admin-header {
+    padding: 10px 12px;
+  }
+
+  .admin-user-pill {
+    min-height: 38px;
+    padding: 6px 9px;
+  }
+
+  .logout-btn {
+    min-height: 38px;
+    padding: 8px 11px;
+  }
+}
+
+/* =========================================================
+   STEP 30 — ADMIN NAVIGATION POLISH
+   ========================================================= */
+
+.admin-nav {
+  background: rgba(255,255,255,.96);
+  border-bottom: 1px solid rgba(226,232,240,.85);
+  box-shadow: 0 4px 16px rgba(15,23,42,.035);
+}
+
+.nav-tab {
+  min-height: 48px;
+  padding: 13px 17px;
+  border-radius: 10px 10px 0 0;
+  font-weight: 600;
+}
+
+.nav-tab.active {
+  color: var(--primary);
+  background: rgba(255,46,99,.055);
+}
+
+.nav-tab.active::after {
+  height: 3px;
+  width: 72%;
+}
+
+.badge-count {
+  min-width: 20px;
+  height: 20px;
+  padding: 2px 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .admin-nav {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .admin-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-tab {
+    min-width: max-content;
+    min-height: 46px;
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-tab {
+    padding: 11px 12px;
+    font-size: 13px;
+  }
+
+  .badge-count {
+    min-width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
+}
+
+@media (hover:none) and (pointer:coarse) {
+  .nav-tab:hover {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   STEP 31 — KPI CARD POLISH
+   ========================================================= */
+
+.stats-grid > * {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(226, 232, 240, .9);
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+}
+
+.stats-grid > *::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--primary),
+    #ff8a65
+  );
+  opacity: .9;
+}
+
+.stats-grid > *::after {
+  content: "";
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  right: -35px;
+  bottom: -40px;
+  border-radius: 50%;
+  background: rgba(255, 46, 99, .045);
+  pointer-events: none;
+}
+
+.stats-grid > *:hover {
+  border-color: rgba(255, 46, 99, .16);
+}
+
+.stats-grid > * h3,
+.stats-grid > * h4 {
+  position: relative;
+  z-index: 1;
+}
+
+.stats-grid > * strong,
+.stats-grid > * .value,
+.stats-grid > * .stat-value {
+  position: relative;
+  z-index: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 768px) {
+  .stats-grid > * {
+    min-height: 125px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid > * {
+    min-height: 110px;
+  }
+}
+
+@media (hover:none) and (pointer:coarse) {
+  .stats-grid > *:hover {
+    border-color: rgba(226, 232, 240, .9);
+  }
+}
+/* =========================================================
+   STEP 32 — SECTION / PANEL POLISH
+   ========================================================= */
+
+.section-head {
+  padding: 4px 2px;
+}
+
+.section-head h2,
+.section-head h3 {
+  margin: 0;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.section-head p,
+.section-head .sub {
+  margin-top: 5px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--primary),
+    transparent
+  );
+  opacity: .55;
+}
+
+.panel-head {
+  position: relative;
+  z-index: 1;
+}
+
+.panel-head h2,
+.panel-head h3 {
+  margin: 0;
+  font-weight: 750;
+}
+
+.panel-head .sub {
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.charts-grid > .panel {
+  min-height: 300px;
+}
+
+@media (max-width: 768px) {
+  .section-head {
+    padding: 2px 0;
+  }
+
+  .charts-grid > .panel {
+    min-height: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-head h2,
+  .section-head h3 {
+    font-size: 18px;
+  }
+
+  .charts-grid > .panel {
+    min-height: 230px;
+  }
+}
+/* =========================================================
+   STEP 33 — TIMELINE / ACTIVITY POLISH
+   ========================================================= */
+
+.timeline {
+  padding: 4px 2px;
+}
+
+.timeline > * {
+  position: relative;
+  padding: 12px 14px;
+  border-radius: 12px;
+  transition:
+    background-color .2s ease,
+    transform .2s ease;
+}
+
+.timeline > *:hover {
+  background: rgba(255, 46, 99, .035);
+  transform: translateX(3px);
+}
+
+.timeline > * + * {
+  margin-top: 4px;
+}
+
+.timeline strong {
+  font-weight: 700;
+}
+
+.timeline .sub {
+  color: #64748b;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .timeline > * {
+    padding: 11px 10px;
+  }
+
+  .timeline > *:hover {
+    transform: none;
+  }
+}
+
+@media (hover:none) and (pointer:coarse) {
+  .timeline > *:hover {
+    background: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline > * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   STEP 34 — RESPONSIVE SPACING
+   ========================================================= */
+
+.dashboard-body {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.stats-grid,
+.charts-grid {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.panel {
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .dashboard-body {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .stats-grid {
+    gap: 14px;
+  }
+
+  .charts-grid {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-body {
+    padding: 16px;
+  }
+
+  .stats-grid,
+  .charts-grid {
+    width: 100%;
+  }
+
+  .panel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-body {
+    padding: 12px;
+  }
+
+  .stats-grid,
+  .charts-grid {
+    gap: 12px;
+  }
+
+  .panel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .dashboard-body {
+    padding: 10px;
+  }
+
+  .stats-grid,
+  .charts-grid {
+    gap: 10px;
+  }
+}
+
+/* =========================================================
+   STEP 35 — FINAL CARD DEPTH
+   ========================================================= */
+
+.panel,
+.stats-grid > * {
+  box-shadow:
+    0 6px 18px rgba(15, 23, 42, .045),
+    0 1px 3px rgba(15, 23, 42, .025);
+}
+
+.panel:hover,
+.stats-grid > *:hover {
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, .09),
+    0 3px 8px rgba(15, 23, 42, .035);
+}
+
+.panel-head {
+  padding-bottom: 2px;
+}
+
+.panel-head h2,
+.panel-head h3 {
+  color: var(--text-main);
+}
+
+.panel .sub {
+  color: #64748b;
+}
+
+@media (max-width: 768px) {
+  .panel,
+  .stats-grid > * {
+    box-shadow: 0 5px 16px rgba(15, 23, 42, .045);
+  }
+
+  .panel:hover,
+  .stats-grid > *:hover {
+    box-shadow: 0 8px 22px rgba(15, 23, 42, .07);
+  }
+}
+
+@media (hover:none) and (pointer:coarse) {
+  .panel:hover,
+  .stats-grid > *:hover {
+    box-shadow: 0 5px 16px rgba(15, 23, 42, .045);
+  }
+}
+
+/* =========================================================
+   STEP 36 — SCROLL / OVERFLOW POLISH
+   ========================================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.table-wrap,
+.admin-nav {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.table-wrap::-webkit-scrollbar,
+.admin-nav::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.table-wrap::-webkit-scrollbar-track,
+.admin-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-wrap::-webkit-scrollbar-thumb,
+.admin-nav::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #cbd5e1;
+}
+
+.table-wrap::-webkit-scrollbar-thumb:hover,
+.admin-nav::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.modal-card {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.modal-card::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-card::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #cbd5e1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* =========================================================
+   STEP 37 — ACCESSIBILITY POLISH
+   ========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(255, 46, 99, .25);
+  outline-offset: 2px;
+}
+
+.nav-tab:focus-visible {
+  outline: 3px solid rgba(255, 46, 99, .22);
+  outline-offset: -2px;
+}
+
+.btn:focus-visible {
+  outline: 3px solid rgba(255, 46, 99, .25);
+  outline-offset: 3px;
+}
+
+.search-input:focus-visible,
+.filter-select:focus-visible {
+  outline: 3px solid rgba(255, 46, 99, .18);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+/* =========================================================
+   STEP 38 — TYPOGRAPHY POLISH
+   ========================================================= */
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: -0.25px;
+}
+
+.section-head h2,
+.section-head h3,
+.panel-head h2,
+.panel-head h3 {
+  line-height: 1.3;
+}
+
+.sub {
+  line-height: 1.5;
+}
+
+.stats-grid > * strong,
+.stats-grid > * .value,
+.stats-grid > * .stat-value {
+  letter-spacing: -0.6px;
+}
+
+.table-wrap th {
+  font-size: 12px;
+  letter-spacing: .2px;
+  text-transform: uppercase;
+}
+
+.table-wrap td {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+@media (max-width: 480px) {
+  .table-wrap th {
+    font-size: 11px;
+  }
+
+  .table-wrap td {
+    font-size: 13px;
+  }
+}
+/* =========================================================
+   STEP 39 — STATUS / BADGE POLISH
+   ========================================================= */
+
+.badge,
+.status-badge,
+.badge-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.badge,
+.status-badge {
+  min-height: 28px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.badge-count {
+  box-shadow: 0 2px 7px rgba(15, 23, 42, .08);
+}
+
+/* Keep badges readable inside tables */
+.table-wrap .badge,
+.table-wrap .status-badge {
+  min-width: max-content;
+}
+
+/* Small-screen adjustment */
+@media (max-width: 480px) {
+  .badge,
+  .status-badge {
+    min-height: 26px;
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   STEP 40 — FINAL HOVER POLISH
+   ========================================================= */
+
+.brand,
+.brand-badge,
+.admin-user-pill,
+.site-link,
+.logout-btn,
+.nav-tab,
+.btn,
+.panel,
+.stats-grid > *,
+.timeline > * {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.brand:active,
+.site-link:active,
+.logout-btn:active,
+.nav-tab:active {
+  transform: scale(.98);
+}
+
+.admin-user-pill:hover {
+  border-color: rgba(203, 213, 225, .95);
+}
+
+.panel-head .btn:hover {
+  transform: translateY(-1px);
+}
+
+.table-wrap .btn:hover {
+  transform: translateY(-1px);
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .brand:active,
+  .site-link:active,
+  .logout-btn:active,
+  .nav-tab:active {
+    transform: none;
+  }
+
+  .panel-head .btn:hover,
+  .table-wrap .btn:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand,
+  .brand-badge,
+  .admin-user-pill,
+  .site-link,
+  .logout-btn,
+  .nav-tab,
+  .btn,
+  .panel,
+  .stats-grid > *,
+  .timeline > * {
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   STEP 41 — PUBLIC HOME FINAL POLISH
+   ========================================================= */
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(255, 106, 0, .22);
+  outline-offset: 3px;
+}
+
+.card,
+.feature-card,
+.service-card,
+.tracking-card,
+.hero-card {
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.card:hover,
+.feature-card:hover,
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, .10);
+}
+
+input,
+select,
+textarea {
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background-color .2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #ff6a00;
+  box-shadow: 0 0 0 4px rgba(255, 106, 0, .08);
+  background: #fff;
+}
+
+@media (max-width: 768px) {
+  .card,
+  .feature-card,
+  .service-card {
+    transform: none;
+  }
+
+  .card:hover,
+  .feature-card:hover,
+  .service-card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (hover:none) and (pointer:coarse) {
+  .card:hover,
+  .feature-card:hover,
+  .service-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

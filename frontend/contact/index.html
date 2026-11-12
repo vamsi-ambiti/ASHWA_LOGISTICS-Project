@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashwa Logistics</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #0a0a0a;
+  color: #fff;
+}
+
+/* HEADER */
+header {
+  background: #fff;
+  color: #000;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: bold;
+  color: #ff6a00;
+  
+}
+
+.top-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.top-links a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* LOGIN / PROFILE */
+.login-btn {
+  padding: 6px 14px;
+  background: #1a73e8;
+  color: #fff !important;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.profile-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ff2e63;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: #fff;
+}
+
+#profileBox {
+  display: none;
+  position: absolute;
+  top: 70px;
+  right: 40px;
+  background: #fff;
+  color: #000;
+  padding: 20px;
+  border-radius: 12px;
+  width: 260px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  z-index: 100;
+}
+
+#profileBox p {
+  font-size: 14px;
+  margin: 6px 0;
+}
+
+.logout-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #ff2e63;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* SECTION */
+.contact-section {
+  min-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #ff2e63);
+  background-size: 300% 300%;
+  animation: bgMove 8s infinite alternate;
+}
+
+@keyframes bgMove {
+  0% { background-position: left; }
+  100% { background-position: right; }
+}
+
+/* CARD */
+.contact-card {
+  width: 100%;
+  max-width: 1200px;
+  background: #000;
+  padding: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  border-radius: 10px;
+  animation: slideUp 1s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* FORM */
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #fff;
+  color: #fff;
+  padding: 16px;
+  margin-bottom: 25px;
+  outline: none;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #aaa;
+}
+
+.contact-form textarea {
+  height: 130px;
+  resize: none;
+}
+
+.contact-form button {
+  padding: 12px 30px;
+  background: #ff2e63;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.contact-form button:hover {
+  background: #e63950;
+  transform: scale(1.03);
+}
+
+/* RIGHT SIDE */
+.contact-info h1 {
+  color: #ff2e63;
+  margin: 20px 0;
+}
+
+.contact-info a {
+  color: #ff2e63;
+  text-decoration: none;
+}
+
+.phone-link {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* SOCIAL ICONS */
+.social-icons {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  transition: 0.3s;
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #aaa;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+  header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .top-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .contact-card {
+    grid-template-columns: 1fr;
+    padding: 30px;
+  }
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.site-logo {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;        /* makes it circle */
+  object-fit: cover;         /* fills the circle */
+  object-position: center;   /* center the image */
+  border: 2px solid #ff2e63; /* optional stylish border */
+  background: #fff;          /* fallback if image has transparency */
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">
+  <img src="/static/background/logo.jpeg" class="site-logo">
+  Ashwa Logistics
+</div>
+  <div class="top-links">
+    <a href="/">Home</a>
+    <a href="/enquiry/">Enquiry</a>
+    <a href="/contact/">Contact</a>
+
+    <div id="authArea" style="position:relative;"></div>
+  </div>
+</header>
+
+<div id="profileBox">
+  <h3>👤 My Profile</h3>
+  <p id="pName"></p>
+  <p id="pEmail"></p>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<section class="contact-section">
+
+  <div class="contact-card">
+
+    <div class="contact-form">
+      <form id="contactForm">
+        <input type="text" id="name" placeholder="Enter your Name" required>
+        <input type="email" id="email" placeholder="Enter a valid email address" required>
+        <textarea id="messageBox" placeholder="Enter your message" required></textarea>
+
+        <button type="submit">SUBMIT</button>
+        <p id="msg"></p>
+      </form>
+    </div>
+
+    <div class="contact-info">
+      <h4>JOIN OUR NEWSLETTER</h4>
+      <h1>Contact us</h1>
+
+      <p>
+        Sai Imports & Exports<br>
+
+        <span class="phone-link" onclick="openContactOptions()">
+         91 9392564151
+        </span><br>
+
+        Mon – Fri: 9:00 am – 8:00 pm<br>
+        Sat – Sun: 9:00 am – 10 pm
+      </p>
+
+      <br>
+
+      <a href="mailto:vamsiambati2004@gmail.com">
+        vamsiambati2004@gmail.com
+      </a>
+
+      <div class="follow">
+        <h2>Follow us</h2>
+
+        <div class="social-icons">
+          <a href="https://wa.me/91 9392564151" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="icon">
+          </a>
+
+          <a href="https://www.instagram.com/YOUR_USERNAME" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" class="icon">
+          </a>
+
+          <a href="https://www.facebook.com/YOUR_PROFILE" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" class="icon">
+          </a>
+        </div>
+      </div>
+
+      <p style="margin-top:40px;">©2025 Privacy policy</p>
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+  © 2025 Ashwa Logistics
+</footer>
+
+<script src="/static/js/app.js"></script>
+<script>
+window.onload = async () => {
+  await renderAuth();
+};
+
+document.getElementById('contactForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const msg = document.getElementById('msg');
+  msg.style.color = '#3b82f6';
+  msg.innerText = 'Sending message...';
+  try {
+    const res = await apiPost('/api/contact/', {
+      name: document.getElementById('name').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      message: document.getElementById('messageBox').value.trim()
+    });
+    msg.style.color = '#10b981';
+    msg.innerText = res.message || 'Message submitted successfully!';
+    document.getElementById('messageBox').value = '';
+  } catch(err) {
+    msg.style.color = '#ef4444';
+    msg.innerText = err.message;
+  }
+});
+
+function openContactOptions() {
+  const phone = '919392564151';
+  const choice = confirm('OK = Call\nCancel = SMS');
+  window.location.href = (choice ? 'tel:+' : 'sms:+') + phone;
+}
+</script>
+
+</body>
+</html>

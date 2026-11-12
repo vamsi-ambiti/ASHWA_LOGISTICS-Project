@@ -1,0 +1,2918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashwa Logistics</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #0a0a0a;
+  color: #fff;
+}
+
+header {
+  background: #fff;
+  color: #000;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff6a00;
+}
+
+.top-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.top-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.profile-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ff2e63;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: #fff;
+}
+.pac-container {
+  z-index: 9999 !important;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.login-btn {
+  padding: 6px 14px;
+  background: #1a73e8;
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+#profileBox {
+  display: none;
+  position: absolute;
+  top: 70px;
+  right: 40px;
+  background: #fff;
+  color: #000;
+  padding: 20px;
+  border-radius: 12px;
+  width: 260px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  z-index: 100;
+  animation: fadeIn 0.3s ease;
+}
+
+#profileBox p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.logout-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #ff2e63;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: videoZoom 10s ease-in-out infinite alternate;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.85), rgba(0,0,0,0.45), rgba(0,0,0,0.15));
+  z-index: 1;
+}
+
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 80px;
+  transform: translateY(-50%);
+  z-index: 2;
+  max-width: 560px;
+  animation: slideText 1.2s ease forwards;
+}
+
+.hero-content h1 {
+  font-size: 58px;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.hero-content span {
+  color: #ff2e63;
+  text-shadow: 0 0 20px #ff2e63;
+  animation: glowText 1.5s ease-in-out infinite alternate;
+}
+
+.hero-content p {
+  margin: 18px 0 28px;
+  color: #eee;
+  font-size: 20px;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+}
+
+.secondary-btn{
+  background: transparent;
+  border: 2px solid #fff;
+}
+
+.secondary-btn:hover{
+  background:#fff;
+  color:#000;
+  transform: scale(1.08);
+}
+
+@media(max-width:900px){
+  .hero-buttons{
+    justify-content:center;
+  }
+}
+
+.btn {
+  display: inline-block;
+  padding: 14px 34px;
+  background: #ff2e63;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 35px;
+  font-weight: 600;
+  box-shadow: 0 0 20px rgba(255,46,99,0.5);
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 30px rgba(255,46,99,0.9);
+}
+
+/* BOTTOM CARDS */
+.bottom-cards {
+  display: flex;
+  gap: 20px;
+  padding: 40px;
+  background: #f4f6f9;
+}
+
+.card {
+  flex: 1;
+  background: #fff;
+  color: #000;
+  padding: 25px;
+  border-radius: 12px;
+  min-height: 260px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+  margin-bottom: 15px;
+}
+
+.card p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.field {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.field input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+}
+
+.search-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #ff4d6d;
+  color: #fff;
+}
+
+.card > .search-btn {
+  width: 100%;
+}
+
+#trackingResult {
+  margin: 0 40px 40px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #aaa;
+}
+
+@keyframes slideText {
+  from { opacity: 0; transform: translate(-80px, -50%); }
+  to { opacity: 1; transform: translate(0, -50%); }
+}
+
+@keyframes glowText {
+  from { text-shadow: 0 0 8px #ff2e63; }
+  to { text-shadow: 0 0 30px #ff2e63; }
+}
+
+@keyframes videoZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media(max-width:900px) {
+  header {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hero-content {
+    left: 25px;
+    right: 25px;
+    text-align: center;
+  }
+
+  .hero-content h1 {
+    font-size: 38px;
+  }
+
+  .hero-content p {
+    font-size: 16px;
+  }
+
+  .bottom-cards {
+    flex-direction: column;
+  }
+
+  .input-row {
+    flex-direction: column;
+  }
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.site-logo {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;        /* makes it circle */
+  object-fit: cover;         /* fills the circle */
+  object-position: center;   /* center the image */
+  border: 2px solid #ff2e63; /* optional stylish border */
+  background: #fff;          /* fallback if image has transparency */
+}
+.about-full {
+  background: #fff;
+  color: #000;
+  margin: 0 10px 40px;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.suggestions {
+  background: #fff;
+  color: #000;
+  border-radius: 8px;
+  max-height: 170px;
+  overflow-y: auto;
+  margin-top: 5px;
+  z-index: 9999;
+}
+
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  border-bottom: 1px solid #eee;
+}
+
+.suggestion-item:hover {
+  background: #f2f2f2;
+}
+
+#miniMap {
+  width: 100%;
+  height: 220px;
+  border-radius: 10px;
+}
+
+.about-full h2 {
+  margin-bottom: 12px;
+  line-height: 2.5;
+}
+
+.about-full p {
+  color: #555;
+  line-height: 2.5;
+}
+.fullscreen-icon {
+  font-size: 22px;
+  cursor: pointer;
+  color: #333;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  transition: 0.3s;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+#trackingMapCard {
+  position: relative;
+}
+.fullscreen-icon:hover {
+  background: #ff4d6d;
+  color: #fff;
+}
+.left-column,
+.right-column {
+  flex: 1;
+}
+
+#miniMap {
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+}
+
+.arrow-line {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* =========================================================
+   ASHWA LOGISTICS - PREMIUM HOME PAGE
+   CSS ONLY - NO FUNCTIONALITY CHANGES
+   ========================================================= */
+
+body {
+    background: #f5f7fb;
+    color: #172033;
+}
+
+/* Header */
+header {
+    background: rgba(255, 255, 255, 0.96);
+    color: #172033;
+    padding: 14px 45px;
+    border-bottom: 1px solid rgba(20, 30, 50, 0.08);
+    box-shadow: 0 4px 20px rgba(20, 30, 50, 0.06);
+    position: relative;
+    z-index: 100;
+}
+
+.logo {
+    color: #e85d04;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+
+.top-links {
+    gap: 28px;
+}
+
+.top-links a {
+    color: #273247;
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+.top-links a:hover {
+    color: #e85d04;
+}
+
+.profile-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #e85d04;
+    background: #fff;
+    color: #e85d04;
+    box-shadow: 0 5px 15px rgba(232, 93, 4, 0.15);
+    transition: 0.25s ease;
+}
+
+.profile-btn:hover {
+    background: #e85d04;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Login button */
+.login-btn {
+    background: linear-gradient(135deg, #e85d04, #ff8c42);
+    color: #fff !important;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(232, 93, 4, 0.2);
+    transition: 0.25s ease;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(232, 93, 4, 0.28);
+}
+
+/* Hero */
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-overlay {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(7, 13, 27, 0.88),
+            rgba(7, 13, 27, 0.60),
+            rgba(7, 13, 27, 0.25)
+        );
+}
+
+.hero-content h1 {
+    font-weight: 800;
+    letter-spacing: -1px;
+    text-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.hero-content span {
+    color: #ff8c42;
+}
+
+.hero-content p {
+    color: rgba(255, 255, 255, 0.88);
+    line-height: 1.7;
+}
+
+/* Buttons */
+.btn {
+    background: linear-gradient(135deg, #e85d04, #ff8c42);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 700;
+    padding: 13px 25px;
+    box-shadow: 0 10px 25px rgba(232, 93, 4, 0.25);
+    transition: 0.25s ease;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(232, 93, 4, 0.35);
+}
+
+.secondary-btn {
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    padding: 12px 24px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    transition: 0.25s ease;
+}
+
+.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-2px);
+}
+
+/* Cards */
+.bottom-cards {
+    gap: 22px;
+    padding: 35px 5%;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #e9edf4;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 10px 35px rgba(30, 45, 70, 0.08);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 18px 45px rgba(30, 45, 70, 0.14);
+    border-color: rgba(232, 93, 4, 0.25);
+}
+
+.card h3 {
+    color: #172033;
+    font-weight: 750;
+}
+
+.card p {
+    color: #667085;
+    line-height: 1.65;
+}
+
+/* Search fields */
+.field input {
+    background: #fff;
+    color: #172033;
+    border: 1px solid #dce2eb;
+    border-radius: 11px;
+    padding: 13px 15px;
+    transition: 0.25s ease;
+}
+
+.field input:focus {
+    border-color: #e85d04;
+    box-shadow: 0 0 0 4px rgba(232, 93, 4, 0.10);
+    outline: none;
+}
+
+.field label {
+    color: #475467;
+    font-weight: 600;
+}
+
+.search-btn {
+    background: linear-gradient(135deg, #e85d04, #ff8c42);
+    border: none;
+    border-radius: 11px;
+    color: #fff;
+    font-weight: 700;
+    transition: 0.25s ease;
+}
+
+.search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(232, 93, 4, 0.25);
+}
+
+/* Tracking result */
+#trackingResult {
+    border-radius: 16px;
+    border: 1px solid #e6eaf0;
+    box-shadow: 0 10px 35px rgba(30, 45, 70, 0.08);
+}
+
+/* About section */
+.about-full {
+    background: #fff;
+    color: #273247;
+    border-top: 1px solid #edf0f4;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.about-full h2,
+.about-full h3 {
+    color: #172033;
+}
+
+.about-full p {
+    color: #667085;
+    line-height: 1.8;
+}
+
+/* Suggestions */
+.suggestions {
+    border-radius: 10px;
+    border: 1px solid #e4e8ee;
+    box-shadow: 0 12px 30px rgba(20, 30, 50, 0.12);
+    overflow: hidden;
+}
+
+.suggestion-item {
+    padding: 11px 14px;
+    color: #273247;
+    background: #fff;
+    transition: 0.2s ease;
+}
+
+.suggestion-item:hover {
+    background: #fff7f2;
+    color: #e85d04;
+}
+
+/* Footer */
+footer {
+    background: #101828;
+    color: #98a2b3;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+footer a {
+    color: #d0d5dd;
+    transition: 0.2s ease;
+}
+
+footer a:hover {
+    color: #ff8c42;
+}
+
+/* Logo */
+.site-logo {
+    border-color: #e85d04 !important;
+    color: #e85d04 !important;
+}
+
+/* Smooth UI */
+button,
+a,
+.card,
+.profile-btn,
+.login-btn,
+.btn,
+.secondary-btn,
+.search-btn {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================================
+   ASHWA LOGISTICS
+   ULTRA MINIMAL + MOBILE FIRST UI/UX
+   CSS ONLY
+   ========================================================= */
+
+:root {
+    --orange: #ff6a00;
+    --orange-light: #ff8a3d;
+    --ink: #101828;
+    --muted: #667085;
+    --surface: #ffffff;
+    --soft: #f6f8fb;
+    --border: rgba(16, 24, 40, 0.08);
+    --shadow: 0 12px 35px rgba(16, 24, 40, 0.08);
+    --radius: 18px;
+}
+
+/* ---------- Base ---------- */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--soft);
+    color: var(--ink);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+a,
+button,
+input,
+textarea {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- Header ---------- */
+
+header {
+    min-height: 64px;
+    padding: 10px 18px;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 5px 25px rgba(16,24,40,0.05);
+    transition:
+        background .3s ease,
+        box-shadow .3s ease;
+}
+
+.logo {
+    color: var(--orange);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -.4px;
+}
+
+/* ---------- Navigation ---------- */
+
+.top-links {
+    gap: 18px;
+}
+
+.top-links a {
+    position: relative;
+    color: #344054;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color .25s ease;
+}
+
+.top-links a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: var(--orange);
+    border-radius: 10px;
+    transform: translateX(-50%);
+    transition: width .25s ease;
+}
+
+.top-links a:hover {
+    color: var(--orange);
+}
+
+.top-links a:hover::after {
+    width: 70%;
+}
+
+/* ---------- Profile ---------- */
+
+.profile-btn {
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255,106,0,.25);
+    background: #fff;
+    color: var(--orange);
+    box-shadow: 0 5px 15px rgba(16,24,40,.08);
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.profile-btn:hover {
+    background: var(--orange);
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 10px 25px rgba(255,106,0,.25);
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+    min-height: 72vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-video {
+    transform: scale(1.03);
+    filter: saturate(.9);
+}
+
+.hero-overlay {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8,15,30,.86),
+            rgba(8,15,30,.60),
+            rgba(8,15,30,.25)
+        );
+}
+
+.hero-content {
+    animation: heroReveal .9s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.hero-content h1 {
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+}
+
+.hero-content span {
+    color: var(--orange-light);
+}
+
+.hero-content p {
+    max-width: 620px;
+    color: rgba(255,255,255,.82);
+    line-height: 1.7;
+}
+
+/* ---------- Hero buttons ---------- */
+
+.hero-buttons {
+    gap: 12px;
+}
+
+.btn,
+.secondary-btn {
+    min-height: 48px;
+    padding: 12px 21px;
+    border-radius: 12px;
+    font-weight: 700;
+    transition:
+        transform .25s cubic-bezier(.2,.8,.2,1),
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.btn {
+    background: linear-gradient(
+        135deg,
+        var(--orange),
+        var(--orange-light)
+    );
+    border: 0;
+    color: #fff;
+    box-shadow:
+        0 10px 25px rgba(255,106,0,.25);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 15px 35px rgba(255,106,0,.35);
+}
+
+.btn:active,
+.secondary-btn:active {
+    transform: scale(.97);
+}
+
+.secondary-btn {
+    border: 1px solid rgba(255,255,255,.3);
+    background: rgba(255,255,255,.08);
+    color: #fff;
+    backdrop-filter: blur(12px);
+}
+
+.secondary-btn:hover {
+    background: rgba(255,255,255,.16);
+    transform: translateY(-2px);
+}
+
+/* ---------- Cards ---------- */
+
+.bottom-cards {
+    display: grid;
+    gap: 16px;
+    padding: 28px 18px;
+}
+
+.card {
+    position: relative;
+    background: rgba(255,255,255,.92);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition:
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        box-shadow .35s ease,
+        border-color .35s ease;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        var(--orange),
+        var(--orange-light)
+    );
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .35s ease;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+    box-shadow:
+        0 20px 45px rgba(16,24,40,.12);
+    border-color: rgba(255,106,0,.18);
+}
+
+.card:hover::before {
+    transform: scaleX(1);
+}
+
+.card h3 {
+    color: var(--ink);
+    font-weight: 750;
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+/* ---------- Forms ---------- */
+
+.field {
+    margin-bottom: 14px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #344054;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.field input {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid #dfe4ea;
+    border-radius: 12px;
+    background: #fff;
+    color: var(--ink);
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
+}
+
+.field input:hover {
+    border-color: #cbd2dc;
+}
+
+.field input:focus {
+    outline: none;
+    border-color: var(--orange);
+    box-shadow:
+        0 0 0 4px rgba(255,106,0,.10);
+}
+
+/* ---------- Search ---------- */
+
+.search-btn {
+    min-height: 48px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(
+        135deg,
+        var(--orange),
+        var(--orange-light)
+    );
+    color: #fff;
+    font-weight: 750;
+    box-shadow: 0 8px 22px rgba(255,106,0,.20);
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 13px 30px rgba(255,106,0,.28);
+}
+
+.search-btn:active {
+    transform: scale(.97);
+}
+
+/* ---------- Tracking result ---------- */
+
+#trackingResult {
+    margin-top: 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    box-shadow: var(--shadow);
+    animation: resultReveal .45s ease both;
+}
+
+/* ---------- Suggestions ---------- */
+
+.suggestions {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 15px 35px rgba(16,24,40,.12);
+    overflow: hidden;
+}
+
+.suggestion-item {
+    padding: 12px 14px;
+    color: #344054;
+    border-bottom: 1px solid #f0f2f5;
+    transition:
+        background .2s ease,
+        color .2s ease,
+        padding-left .2s ease;
+}
+
+.suggestion-item:hover {
+    padding-left: 18px;
+    background: #fff7f2;
+    color: var(--orange);
+}
+
+/* ---------- About ---------- */
+
+.about-full {
+    background: #fff;
+    color: var(--ink);
+    border-top: 1px solid var(--border);
+}
+
+.about-full p {
+    color: var(--muted);
+    line-height: 1.8;
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+    background: #101828;
+    color: #98a2b3;
+}
+
+/* ---------- Animations ---------- */
+
+@keyframes heroReveal {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes resultReveal {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Mobile UX ---------- */
+
+@media (max-width: 700px) {
+
+    header {
+        padding: 10px 14px;
+        min-height: 60px;
+    }
+
+    .top-links {
+        gap: 10px;
+    }
+
+    .top-links a {
+        font-size: 12px;
+    }
+
+    .profile-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .hero {
+        min-height: 78vh;
+    }
+
+    .hero-content {
+        width: 100%;
+        padding: 24px 18px;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(2rem, 9vw, 3rem);
+        letter-spacing: -1px;
+    }
+
+    .hero-content p {
+        font-size: 14px;
+        margin: 12px auto 0;
+    }
+
+    .hero-buttons {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        margin-top: 20px;
+    }
+
+    .btn,
+    .secondary-btn {
+        width: 100%;
+        min-height: 50px;
+    }
+
+    .bottom-cards {
+        grid-template-columns: 1fr;
+        padding: 22px 14px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .input-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .field {
+        width: 100%;
+    }
+
+    .search-btn {
+        width: 100%;
+        min-height: 50px;
+    }
+
+    .left-column,
+    .right-column {
+        width: 100%;
+    }
+
+    #trackingMapCard {
+        margin-top: 16px;
+    }
+}
+
+/* ---------- Small phones ---------- */
+
+@media (max-width: 420px) {
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .top-links {
+        gap: 7px;
+    }
+
+    .top-links a {
+        font-size: 11px;
+    }
+
+    .profile-btn {
+        width: 34px;
+        height: 34px;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 13px;
+    }
+
+    .card {
+        border-radius: 15px;
+        padding: 18px;
+    }
+}
+
+/* ---------- Reduced motion accessibility ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* =========================================================
+   STEP 17 — FINAL PUBLIC UI/UX POLISH
+   ========================================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Better keyboard accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #ff6a00;
+  outline-offset: 3px;
+}
+
+/* Smooth image rendering */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Premium selection */
+::selection {
+  background: rgba(255,106,0,.20);
+  color: inherit;
+}
+
+/* Prevent accidental horizontal scrolling */
+body {
+  overflow-x: hidden;
+}
+
+/* Smooth interaction for clickable elements */
+a,
+button {
+  transition:
+    transform .2s ease,
+    opacity .2s ease,
+    box-shadow .2s ease,
+    background-color .2s ease;
+}
+
+/* Button press feedback */
+button:active,
+.btn:active,
+.login-btn:active,
+.search-btn:active {
+  transform: scale(.98);
+}
+
+/* Mobile touch optimization */
+@media (max-width: 700px) {
+
+  button,
+  .btn,
+  .login-btn,
+  .search-btn,
+  a {
+    touch-action: manipulation;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+
+  header {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .logo,
+  .site-logo {
+    max-width: 70%;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* =========================================================
+   STEP 18 — PREMIUM HEADER & NAVIGATION UX
+   ========================================================= */
+
+/* Premium header */
+header {
+  position: relative;
+  z-index: 100;
+  transition:
+    box-shadow .3s ease,
+    background-color .3s ease;
+}
+
+/* Logo */
+.logo,
+.site-logo {
+  transition:
+    transform .25s ease,
+    opacity .25s ease;
+}
+
+.logo:hover,
+.site-logo:hover {
+  transform: translateY(-1px);
+}
+
+/* Navigation links */
+.top-links {
+  transition: opacity .25s ease;
+}
+
+.top-links a {
+  position: relative;
+  padding: 6px 2px;
+}
+
+/* Animated underline */
+.top-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  border-radius: 10px;
+  background: currentColor;
+  transition: width .25s ease;
+}
+
+.top-links a:hover::after {
+  width: 100%;
+}
+
+/* Login button */
+.login-btn {
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    filter .25s ease;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
+  filter: brightness(1.03);
+}
+
+/* Profile button */
+.profile-btn {
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.profile-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 7px 18px rgba(0,0,0,.14);
+}
+
+/* Logout button */
+.logout-btn {
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.logout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);
+}
+
+/* Profile popup */
+#profileBox {
+  animation: profileBoxIn .25s cubic-bezier(.22,1,.36,1);
+  transform-origin: top right;
+}
+
+/* Popup animation */
+@keyframes profileBoxIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+
+  header {
+    padding: 14px 24px;
+  }
+
+  .top-links {
+    gap: 16px;
+  }
+
+  .top-links a {
+    font-size: 14px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+
+  header {
+    padding: 12px 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .top-links {
+    width: 100%;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding-top: 4px;
+  }
+
+  .top-links a {
+    font-size: 13px;
+  }
+
+  .login-btn {
+    padding: 9px 14px;
+    font-size: 13px;
+  }
+
+  .profile-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  #profileBox {
+    right: 10px;
+    max-width: calc(100vw - 20px);
+  }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+
+  header {
+    justify-content: center;
+  }
+
+  .logo {
+    width: 100%;
+    text-align: center;
+  }
+
+  .top-links {
+    gap: 10px;
+  }
+
+  .top-links a {
+    font-size: 12px;
+  }
+
+  .login-btn {
+    padding: 8px 12px;
+  }
+
+  .profile-btn {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+  .logo,
+  .site-logo,
+  .top-links,
+  .top-links a,
+  .login-btn,
+  .profile-btn,
+  .logout-btn,
+  #profileBox {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .top-links a::after {
+    transition: none !important;
+  }
+}
+/* =========================================================
+   STEP 19 — HOME HERO + TRACKING UX
+   ========================================================= */
+
+/* Hero content entrance */
+.hero-content {
+  animation: heroContentIn .9s cubic-bezier(.22,1,.36,1) both;
+}
+
+/* Main heading */
+.hero-content h1 {
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+/* Hero paragraph */
+.hero-content p {
+  line-height: 1.7;
+  opacity: .92;
+}
+
+/* Hero buttons */
+.hero-buttons {
+  gap: 14px;
+}
+
+.hero-buttons .btn,
+.hero-buttons .secondary-btn {
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    filter .25s ease;
+}
+
+.hero-buttons .btn:hover,
+.hero-buttons .secondary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.18);
+}
+
+/* Tracking form */
+.field {
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.field:focus-within {
+  transform: translateY(-2px);
+}
+
+/* Tracking inputs */
+.field input {
+  transition:
+    border-color .25s ease,
+    box-shadow .25s ease,
+    background-color .25s ease;
+}
+
+.field input:focus {
+  box-shadow: 0 0 0 4px rgba(255,106,0,.10);
+}
+
+/* Search button */
+.search-btn {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.search-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(255,106,0,.22);
+}
+
+/* Button shine */
+.search-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.28),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left .6s ease;
+}
+
+.search-btn:hover::after {
+  left: 140%;
+}
+
+/* Tracking result */
+#trackingResult {
+  animation: trackingResultIn .45s cubic-bezier(.22,1,.36,1);
+}
+
+/* Tracking map card */
+#trackingMapCard {
+  transition:
+    transform .3s ease,
+    box-shadow .3s ease;
+}
+
+#trackingMapCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(0,0,0,.12);
+}
+
+/* Suggestions */
+.suggestion-item {
+  transition:
+    background-color .2s ease,
+    transform .2s ease,
+    padding-left .2s ease;
+}
+
+.suggestion-item:hover {
+  transform: translateX(3px);
+  padding-left: 5px;
+}
+
+/* Bottom cards */
+.bottom-cards {
+  gap: 20px;
+}
+
+.bottom-cards .card {
+  transition:
+    transform .3s cubic-bezier(.22,1,.36,1),
+    box-shadow .3s ease,
+    border-color .3s ease;
+}
+
+.bottom-cards .card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0,0,0,.10);
+}
+
+/* Hero entrance */
+@keyframes heroContentIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Result entrance */
+@keyframes trackingResultIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+
+  .hero-content {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(30px, 6vw, 48px);
+  }
+
+  .hero-buttons {
+    flex-wrap: wrap;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+
+  .hero-content {
+    width: 100%;
+    padding: 30px 18px;
+    text-align: center;
+  }
+
+  .hero-content h1 {
+    font-size: 30px;
+  }
+
+  .hero-content p {
+    font-size: 14px;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hero-buttons .btn,
+  .hero-buttons .secondary-btn {
+    min-width: 140px;
+  }
+
+  .input-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .field,
+  .search-btn {
+    width: 100%;
+  }
+
+  .bottom-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+
+  .hero-content {
+    padding: 24px 14px;
+  }
+
+  .hero-content h1 {
+    font-size: 26px;
+  }
+
+  .hero-content p {
+    font-size: 13px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .hero-buttons .btn,
+  .hero-buttons .secondary-btn {
+    width: 100%;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+  .hero-content,
+  #trackingResult {
+    animation: none;
+  }
+
+  .hero-buttons .btn,
+  .hero-buttons .secondary-btn,
+  .field,
+  .search-btn,
+  #trackingMapCard,
+  .bottom-cards .card {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   STEP 20 — CARDS + FORMS PREMIUM UX
+   ========================================================= */
+
+/* Cards */
+.card,
+.issue-card,
+.contact-card {
+  transition:
+    transform .3s cubic-bezier(.22,1,.36,1),
+    box-shadow .3s ease,
+    border-color .3s ease;
+}
+
+.card:hover,
+.issue-card:hover,
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.12);
+}
+
+/* Form labels */
+label {
+  transition: color .2s ease;
+}
+
+.field:focus-within label,
+.form-group:focus-within label {
+  color: #ff6a00;
+}
+
+/* Inputs */
+input,
+textarea,
+select {
+  transition:
+    border-color .25s ease,
+    box-shadow .25s ease,
+    background-color .25s ease,
+    transform .2s ease;
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: rgba(255,106,0,.45);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 4px rgba(255,106,0,.10);
+}
+
+/* Textarea */
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Submit buttons */
+button[type="submit"] {
+  position: relative;
+  overflow: hidden;
+}
+
+button[type="submit"]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.25),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left .6s ease;
+}
+
+button[type="submit"]:hover::after {
+  left: 140%;
+}
+
+/* Enquiry issue cards */
+.issue-card {
+  animation: cardAppear .6s cubic-bezier(.22,1,.36,1) both;
+}
+
+/* Contact information */
+.contact-info a {
+  transition:
+    color .2s ease,
+    transform .2s ease;
+}
+
+.contact-info a:hover {
+  transform: translateX(3px);
+}
+
+/* Social icons */
+.social-icons .icon {
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.social-icons .icon:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 22px rgba(0,0,0,.15);
+}
+
+/* Card entrance */
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tablet */
+@media (max-width: 800px) {
+
+  .contact-card {
+    gap: 35px;
+  }
+
+  .issue-card,
+  .contact-card {
+    padding: 28px 22px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+  .card,
+  .issue-card,
+  .contact-card {
+    border-radius: 18px;
+  }
+
+  .card:hover,
+  .issue-card:hover,
+  .contact-card:hover {
+    transform: translateY(-2px);
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+  .card,
+  .issue-card,
+  .contact-card,
+  .social-icons .icon {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  button[type="submit"]::after {
+    display: none;
+  }
+}
+
+/* =========================================================
+   STEP 21 — FINAL MOBILE-FIRST RESPONSIVE PASS
+   ========================================================= */
+
+/* ---------- TABLET ---------- */
+
+@media (max-width: 900px) {
+
+  .container,
+  .contact-card,
+  .issue-card,
+  section {
+    max-width: 94%;
+  }
+
+  .contact-card {
+    gap: 35px;
+  }
+
+  .bottom-cards {
+    gap: 16px;
+  }
+
+  .hero-content {
+    max-width: 90%;
+  }
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 700px) {
+
+  /* General spacing */
+  section {
+    width: calc(100% - 28px);
+  }
+
+  /* Header */
+  header {
+    min-height: 60px;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 600px;
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Columns become one column */
+  .left-column,
+  .right-column {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Form rows */
+  .input-row {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .input-row > * {
+    width: 100%;
+  }
+
+  /* Cards */
+  .bottom-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  /* Enquiry */
+  .enquiry-section {
+    padding: 35px 14px;
+  }
+
+  .issue-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Contact */
+  .contact-section {
+    padding: 35px 14px;
+  }
+
+  .contact-card {
+    width: 100%;
+    max-width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  /* Contact form */
+  .contact-form {
+    width: 100%;
+  }
+
+  /* Login / signup */
+  body:has(.overlay) {
+    padding: 14px;
+  }
+
+  body:has(.overlay) section {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+
+/* ---------- SMALL PHONES ---------- */
+
+@media (max-width: 480px) {
+
+  /* Header */
+  header {
+    padding: 12px 14px;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 560px;
+  }
+
+  .hero-content {
+    padding: 20px 12px;
+  }
+
+  .hero-content h1 {
+    font-size: 27px;
+  }
+
+  .hero-content p {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* Buttons */
+  .hero-buttons {
+    width: 100%;
+  }
+
+  .hero-buttons .btn,
+  .hero-buttons .secondary-btn {
+    width: 100%;
+  }
+
+  /* Cards */
+  .card,
+  .issue-card,
+  .contact-card {
+    padding: 22px 18px;
+  }
+
+  /* Form */
+  .field {
+    width: 100%;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+  }
+
+  /* Login */
+  body:has(.overlay) section {
+    padding: 26px 20px;
+    border-radius: 18px;
+  }
+
+  body:has(.overlay) h1 {
+    font-size: 25px;
+  }
+
+  /* Enquiry */
+  .issue-card h2 {
+    font-size: 22px;
+  }
+
+  /* Contact */
+  .contact-info h1 {
+    font-size: 25px;
+  }
+
+  .social-icons {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+}
+
+
+/* ---------- VERY SMALL PHONES ---------- */
+
+@media (max-width: 360px) {
+
+  header {
+    padding: 10px 12px;
+  }
+
+  .top-links {
+    gap: 8px;
+  }
+
+  .hero-content h1 {
+    font-size: 24px;
+  }
+
+  .hero-content p {
+    font-size: 12px;
+  }
+
+  .card,
+  .issue-card,
+  .contact-card {
+    padding: 18px 14px;
+  }
+
+  body:has(.overlay) {
+    padding: 10px;
+  }
+
+  body:has(.overlay) section {
+    padding: 22px 16px;
+  }
+}
+
+
+/* ---------- TOUCH DEVICES ---------- */
+
+@media (hover: none) and (pointer: coarse) {
+
+  .card:hover,
+  .issue-card:hover,
+  .contact-card:hover,
+  #trackingMapCard:hover {
+    transform: none;
+  }
+
+  .top-links a:hover::after {
+    width: 0;
+  }
+
+  button:hover,
+  .btn:hover,
+  .login-btn:hover,
+  .search-btn:hover {
+    transform: none;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    min-height: 46px;
+  }
+}
+
+
+/* ---------- ACCESSIBILITY ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">
+  <img src="/static/background/logo.jpeg" class="site-logo">
+ Ashwa Logistics
+</div>
+
+  <div class="top-links">
+    <a href="/">Home</a>
+    <a href="/enquiry/">Enquiry</a>
+    <a href="/contact/">Contact</a>
+    <div id="authArea" style="position:relative;"><a href="/login/" id="loginBtn" data-public="true" class="login-btn">Login</a></div>
+  </div>
+</header>
+
+<div id="profileBox">
+  <h3>👤 My Profile</h3>
+  <p id="pName"></p>
+  <p id="pEmail"></p>
+  <button onclick="openMyShipments()" style="margin-top:8px; width:100%; padding:10px; border:1px solid #ff2e63; background:#fff; color:#ff2e63; border-radius:8px; font-weight:600; cursor:pointer; transition:0.2s;">📦 My Bookings</button>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<!-- MY SHIPMENTS MODAL -->
+<div id="myShipmentsModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:10002; justify-content:center; align-items:center; padding:20px;">
+  <div style="background:#fff; color:#000; border-radius:12px; max-width:640px; width:100%; max-height:80vh; overflow-y:auto; padding:25px; position:relative; box-shadow:0 15px 35px rgba(0,0,0,0.4);">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+      <h3 style="color:#ff2e63; margin:0;">📦 My Booked Shipments</h3>
+      <button onclick="closeMyShipments()" style="background:none; border:none; font-size:22px; cursor:pointer; color:#666;">✕</button>
+    </div>
+    <div id="myShipmentsList">Loading your bookings...</div>
+  </div>
+</div>
+
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="/static/background/logo_video.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <h1>Share your Jour<span>EARN</span>ey</h1>
+    <p>Your Story. Your Reels. Your Earnings.</p>
+    <div class="hero-buttons">
+      <a href="#aboutUs" class="btn" onclick="highlightAbout()">Learn More</a>
+      <a href="#shipmentSection" class="btn" onclick="highlightShipment()">Search Shipment</a>
+    </div>
+  </div>
+</section>
+
+<section class="bottom-cards" id="shipmentSection">
+  <!-- LEFT CARD -->
+  <div class="left-column">
+    <div class="card">
+      <h3>Book a Shipment</h3>
+
+      <div class="field">
+        <label>From (Pickup Location)</label>
+        <input id="fromAddress" type="text" placeholder="Search pickup location">
+        <div id="fromSuggestions" class="suggestions"></div>
+      </div>
+
+      <div class="field">
+        <label>To (Delivery Location)</label>
+        <input id="toAddress" type="text" placeholder="Search delivery location">
+        <div id="toSuggestions" class="suggestions"></div>
+      </div>
+
+      <div class="field">
+        <label>Pickup Date</label>
+        <input id="pickupDate" type="date">
+      </div>
+
+      <button class="search-btn" id="bookShipmentBtn" onclick="createShipment()">Book Shipment</button>
+    </div>
+
+    <!-- MAP CARD -->
+    <div class="card" id="trackingMapCard" style="display:none; margin-top:20px;">
+      <h3>📍 Route & Tracking Map</h3>
+      <p id="mapText">Route loading...</p>
+
+      <div style="display:flex; justify-content:flex-end; margin-bottom:5px;">
+        <span onclick="openFullMap()" class="fullscreen-icon" title="Full Screen">⛶</span>
+      </div>
+
+      <div id="miniMap"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT CARD -->
+  <div class="right-column">
+    <div class="card">
+      <h3>📦 Product Tracking</h3>
+
+      <div class="field">
+        <label>Product ID</label>
+        <div class="input-row">
+          <input id="productIdInput" type="text" placeholder="Enter Product ID (e.g. PROD88291043)">
+          <button class="search-btn" onclick="trackProduct()">Track</button>
+        </div>
+      </div>
+      <small style="color:#777;">Tip: You can track seeded packages like <b>PROD88291043</b> or <b>PROD77412950</b></small>
+    </div>
+
+    <!-- LIVE TRACKING CARD -->
+    <div id="trackingResult" class="card" style="display:none; margin-top:20px;">
+      <h3>🚚 Live Tracking Status</h3>
+      <p><strong>Status:</strong> <span id="trackStatusBadge" style="background:#ff2e63; color:#fff; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:bold;"></span></p><br>
+      <p><strong>Route:</strong> <span id="currentLocation"></span></p><br>
+      <p><strong>Distance:</strong> <span id="distance"></span></p>
+      <p><strong>Estimated Delivery:</strong> <span id="deliveryDate"></span></p>
+      <p><strong>Shipping Cost:</strong> ₹<span id="shipmentPrice"></span></p>
+
+      <!-- CHECKPOINTS TIMELINE -->
+      <div id="trackingMilestones" style="margin-top:20px; border-top:1px solid #eee; padding-top:15px;">
+        <h4 style="margin-bottom:12px; color:#ff2e63;">📍 Checkpoint Milestones</h4>
+        <div id="milestoneList" style="font-size:13px;"></div>
+      </div>
+    </div>
+  </div>
+</section><br><br>
+
+<section class="about-full" id="aboutUs">
+  <h2>About Us</h2>
+  <p>
+    Ashwa Logistics is a growing logistics startup dedicated to delivering fast, reliable, and efficient transportation solutions. Inspired by the strength, speed, and endurance symbolized by the word “Ashwa” (horse), our company focuses on ensuring safe and timely delivery of goods while maintaining the highest standards of service.<br><br>
+
+    At Ashwa Logistics, we understand that logistics plays a critical role in business success. Our mission is to provide dependable transportation services that help individuals and businesses move goods smoothly and securely. We combine modern logistics practices, smart route planning, and careful handling to ensure every shipment reaches its destination safely.<br><br>
+
+    We aim to build strong and lasting relationships with our clients by offering transparent communication, on-time delivery, and cost-effective logistics solutions. Whether handling small shipments or large-scale transportation needs, Ashwa Logistics is committed to delivering excellence with speed and precision.<br><br>
+
+    🎯 <b>Our Mission:</b><br>
+    To provide reliable, safe, and timely logistics services that support business growth and customer satisfaction.<br><br>
+
+    👁️ <b>Our Vision:</b><br>
+    To become a trusted and recognized logistics partner, known for speed, reliability, and innovative delivery solutions.
+  </p>
+</section>
+
+<footer>
+  © 2025 Ashwa Logistics
+</footer>
+
+<script src="/static/js/app.js"></script>
+<script>
+let fromCoords = null, toCoords = null, map = null, searchTimer;
+
+async function getLocation(query) {
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!data.length) return null;
+    return { name: data[0].display_name, coords: [parseFloat(data[0].lat), parseFloat(data[0].lon)] };
+  } catch(e) { return null; }
+}
+
+async function searchLocation(inputId, suggestionId, type) {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(async () => {
+    const query = document.getElementById(inputId).value.trim();
+    const box = document.getElementById(suggestionId);
+    if (query.length < 3) { box.innerHTML = ''; return; }
+    try {
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`);
+      const data = await response.json();
+      box.innerHTML = '';
+      data.forEach(place => {
+        const item = document.createElement('div');
+        item.className = 'suggestion-item';
+        item.innerText = place.display_name;
+        item.onclick = () => {
+          document.getElementById(inputId).value = place.display_name;
+          box.innerHTML = '';
+          const coords = [parseFloat(place.lat), parseFloat(place.lon)];
+          if (type === 'from') fromCoords = coords; else toCoords = coords;
+        };
+        box.appendChild(item);
+      });
+    } catch (e) {}
+  }, 400);
+}
+
+document.getElementById('fromAddress').addEventListener('input', () => { fromCoords = null; searchLocation('fromAddress', 'fromSuggestions', 'from'); });
+document.getElementById('toAddress').addEventListener('input', () => { toCoords = null; searchLocation('toAddress', 'toSuggestions', 'to'); });
+
+async function createShipment() {
+  const from = document.getElementById('fromAddress').value.trim();
+  const to = document.getElementById('toAddress').value.trim();
+  const date = document.getElementById('pickupDate').value;
+  if (!from || !to || !date) return alert('Please enter From, To and Pickup Date');
+
+  const btn = document.getElementById('bookShipmentBtn');
+  btn.disabled = true;
+  btn.innerText = 'Creating Booking...';
+
+  try {
+    if (!fromCoords) {
+      const d = await getLocation(from);
+      if (!d) throw new Error('From address not recognized. Please pick from suggestions.');
+      fromCoords = d.coords;
+      document.getElementById('fromAddress').value = d.name;
+    }
+    if (!toCoords) {
+      const d = await getLocation(to);
+      if (!d) throw new Error('To address not recognized. Please pick from suggestions.');
+      toCoords = d.coords;
+      document.getElementById('toAddress').value = d.name;
+    }
+
+    const data = await apiPost('/api/shipments/', {
+      from_address: document.getElementById('fromAddress').value.trim(),
+      to_address: document.getElementById('toAddress').value.trim(),
+      pickup_date: date,
+      from_lat: fromCoords[0],
+      from_lon: fromCoords[1],
+      to_lat: toCoords[0],
+      to_lon: toCoords[1]
+    });
+
+    document.getElementById('productIdInput').value = data.shipment.product_id;
+    alert(`🎉 Shipment Booked Successfully!\n\nProduct ID: ${data.shipment.product_id}\nEstimated Delivery: ${data.shipment.estimated_delivery}\nTotal Price: ₹${data.shipment.price}`);
+    trackProduct();
+  } catch (err) {
+    alert(err.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerText = 'Book Shipment';
+  }
+}
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  let R = 6371,
+    dLat = (lat2 - lat1) * Math.PI / 180,
+    dLon = (lon2 - lon1) * Math.PI / 180,
+    a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2,
+    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return (R * c).toFixed(2);
+}
+
+async function trackProduct() {
+  const productId = document.getElementById('productIdInput').value.trim();
+  if (!productId) return alert('Please enter a Product ID to track.');
+
+  try {
+    const r = await apiGet('/api/shipments/' + encodeURIComponent(productId) + '/');
+    const s = r.shipment;
+    const fromC = [s.from_lat, s.from_lon], toC = [s.to_lat, s.to_lon];
+
+    document.getElementById('trackingMapCard').style.display = 'block';
+    document.getElementById('trackingResult').style.display = 'block';
+
+    document.getElementById('trackStatusBadge').innerText = s.status;
+    document.getElementById('currentLocation').innerHTML = `${escapeHtml(s.from_address)}<br><b>➔</b><br>${escapeHtml(s.to_address)}`;
+    document.getElementById('distance').innerText = calculateDistance(...fromC, ...toC) + ' km';
+    document.getElementById('deliveryDate').innerText = s.estimated_delivery;
+    document.getElementById('shipmentPrice').innerText = s.price;
+    document.getElementById('mapText').innerHTML = `<b>Route:</b> ${escapeHtml(s.from_address.split(',')[0])} ➔ ${escapeHtml(s.to_address.split(',')[0])}`;
+
+    // Render milestone checkpoints
+    const mList = document.getElementById('milestoneList');
+    if (s.tracking_history && s.tracking_history.length > 0) {
+      mList.innerHTML = s.tracking_history.map(u => `
+        <div style="margin-bottom:10px; padding-left:12px; border-left:3px solid #ff2e63;">
+          <b style="color:#000;">${escapeHtml(u.status)}</b> — <small style="color:#555;">${escapeHtml(u.location)}</small><br>
+          <small style="color:#888;">${escapeHtml(u.timestamp)}</small>
+          ${u.remarks ? `<div style="font-size:12px; color:#444; margin-top:2px;">${escapeHtml(u.remarks)}</div>` : ''}
+        </div>
+      `).join('');
+    } else {
+      mList.innerHTML = '<p style="color:#888; font-size:12px;">No checkpoint updates logged yet.</p>';
+    }
+
+    if (map) map.remove();
+    map = L.map('miniMap').setView(fromC, 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+    L.marker(fromC).addTo(map).bindPopup('📍 From: ' + s.from_address);
+    L.marker(toC).addTo(map).bindPopup('🏁 To: ' + s.to_address);
+    L.polyline([fromC, toC], { color: '#ff2e63', weight: 4 }).addTo(map);
+    map.fitBounds([fromC, toC], { padding: [30, 30] });
+
+    document.getElementById('trackingResult').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
+function escapeHtml(v) {
+  return String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c]));
+}
+
+function openFullMap() {
+  const el = document.getElementById('trackingMapCard');
+  if (el.requestFullscreen) el.requestFullscreen();
+  setTimeout(() => { if (map) map.invalidateSize(); }, 500);
+}
+
+function highlightAbout() {
+  const el = document.getElementById('aboutUs');
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function highlightShipment() {
+  const el = document.getElementById('shipmentSection');
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// "My Bookings" Customer Modal
+async function openMyShipments() {
+  const modal = document.getElementById('myShipmentsModal');
+  const list = document.getElementById('myShipmentsList');
+  modal.style.display = 'flex';
+  list.innerHTML = 'Loading your bookings...';
+
+  try {
+    const res = await apiGet('/api/my-shipments/');
+    if (!res.shipments || !res.shipments.length) {
+      list.innerHTML = '<p style="color:#666;">You have not booked any shipments yet.</p>';
+      return;
+    }
+    list.innerHTML = res.shipments.map(s => `
+      <div style="border:1px solid #eee; border-radius:10px; padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <b style="color:#ff2e63;">${escapeHtml(s.product_id)}</b> 
+          <span style="font-size:11px; padding:2px 8px; border-radius:10px; background:#eee; margin-left:6px; font-weight:bold;">${escapeHtml(s.status)}</span><br>
+          <small style="color:#555;">${escapeHtml(s.from_address.split(',')[0])} ➔ ${escapeHtml(s.to_address.split(',')[0])}</small><br>
+          <small style="color:#888;">Delivery by ${escapeHtml(s.estimated_delivery)} • ₹${s.price}</small>
+        </div>
+        <button onclick="trackMyShipment('${s.product_id}')" style="background:#ff2e63; color:#fff; border:none; padding:7px 14px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:bold;">Track</button>
+      </div>
+    `).join('');
+  } catch (err) {
+    list.innerHTML = `<p style="color:red;">${err.message}</p>`;
+  }
+}
+
+function closeMyShipments() {
+  document.getElementById('myShipmentsModal').style.display = 'none';
+}
+
+function trackMyShipment(productId) {
+  closeMyShipments();
+  document.getElementById('productIdInput').value = productId;
+  trackProduct();
+}
+
+window.onload = async () => {
+  await renderAuth();
+  // Set default pickup date to today
+  const today = new Date().toISOString().split('T')[0];
+  const dateInput = document.getElementById('pickupDate');
+  if (dateInput && !dateInput.value) dateInput.value = today;
+};
+</script>
+
+<script>
+/* =========================================================
+   GLOBAL LOGIN LOCK
+   Everything requires login except the login page/action.
+   ========================================================= */
+
+async function isUserLoggedIn() {
+    try {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+
+        const apiUrl = (typeof getApiUrl === 'function') ? getApiUrl('/api/me/') : '/api/me/';
+        const authHeaders = (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {};
+
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            credentials: 'include',
+            headers: authHeaders
+        });
+
+        if (!response.ok) {
+            return !!(token && user);
+        }
+
+        const data = await response.json();
+
+        if (data.authenticated === true) {
+            return true;
+        }
+
+        return !!(token && user);
+
+    } catch (error) {
+        console.error('Login check failed:', error);
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+        return !!(token && user);
+    }
+}
+
+
+/* =========================================================
+   LOGIN REQUIRED MESSAGE
+   ========================================================= */
+
+let _lastLoginAlert = 0;
+function showLoginRequired() {
+    const now = Date.now();
+    if (now - _lastLoginAlert < 600) return;
+    _lastLoginAlert = now;
+    alert('Please login first.');
+}
+
+
+/* =========================================================
+   GLOBAL CLICK PROTECTION
+   ========================================================= */
+
+document.addEventListener('click', async function (event) {
+
+    const target = event.target.closest(
+        'button, a, input, select, textarea, [onclick], [role="button"]'
+    );
+
+    if (!target) {
+        return;
+    }
+
+
+    /* ---------------------------------------------
+       Allow Login
+       --------------------------------------------- */
+
+    const href = target.getAttribute('href') || '';
+    const id = target.id || '';
+    const text = (target.innerText || target.value || '').trim().toLowerCase();
+
+    const isLoginAction =
+        id === 'loginBtn' ||
+        target.dataset.public === 'true' ||
+        href === '/login/' ||
+        href.includes('/login') ||
+        href.includes('login.html') ||
+        text === 'login';
+
+
+    if (isLoginAction) {
+        return;
+    }
+
+
+    /* ---------------------------------------------
+       Check authentication (synchronous fast-path to prevent navigation/actions)
+       --------------------------------------------- */
+    const isKnownLoggedIn = !!(localStorage.getItem('token') && localStorage.getItem('user'));
+    if (!isKnownLoggedIn) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (target.matches('input, select, textarea')) {
+            target.blur();
+        }
+        showLoginRequired();
+        return false;
+    }
+
+    const loggedIn = await isUserLoggedIn();
+
+
+    if (loggedIn) {
+        return;
+    }
+
+
+    /* ---------------------------------------------
+       User is NOT logged in
+       Block action
+       --------------------------------------------- */
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    showLoginRequired();
+
+    return false;
+
+}, true);
+
+
+/* =========================================================
+   PROTECT FORM SUBMISSIONS
+   ========================================================= */
+
+document.addEventListener('submit', async function (event) {
+
+    const form = event.target;
+
+    if (!form) {
+        return;
+    }
+
+
+    const id = form.id || '';
+
+    const isLoginForm =
+        id === 'loginForm' ||
+        form.dataset.public === 'true';
+
+
+    if (isLoginForm) {
+        return;
+    }
+
+    const isKnownLoggedIn = !!(localStorage.getItem('token') && localStorage.getItem('user'));
+    if (!isKnownLoggedIn) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        showLoginRequired();
+        return false;
+    }
+
+    const loggedIn = await isUserLoggedIn();
+
+
+    if (loggedIn) {
+        return;
+    }
+
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    showLoginRequired();
+
+    return false;
+
+}, true);
+
+
+/* =========================================================
+   PROTECT INPUT FOCUS
+   Prevent typing before login.
+   ========================================================= */
+
+document.addEventListener('focusin', async function (event) {
+
+    const target = event.target;
+
+    if (!target.matches('input, select, textarea')) {
+        return;
+    }
+
+    const isKnownLoggedIn = !!(localStorage.getItem('token') && localStorage.getItem('user'));
+    if (!isKnownLoggedIn) {
+        target.blur();
+        showLoginRequired();
+        return;
+    }
+
+    const loggedIn = await isUserLoggedIn();
+
+
+    if (loggedIn) {
+        return;
+    }
+
+
+    target.blur();
+
+    showLoginRequired();
+
+}, true);
+
+</script>
+
+
+</body>
+</html>
