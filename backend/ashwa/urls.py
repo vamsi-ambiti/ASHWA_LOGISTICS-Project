@@ -8,16 +8,54 @@ from logistics import views
 urlpatterns = [
 
     # ========================================================
+    # CUSTOMER & PUBLIC PAGES
+    # ========================================================
+
+    path(
+        '',
+        views.home,
+        name='home'
+    ),
+
+    path(
+        'login/',
+        views.login_page,
+        name='login_page'
+    ),
+
+    path(
+        'signup/',
+        views.signup_page,
+        name='signup_page'
+    ),
+
+    path(
+        'enquiry/',
+        views.enquiry_page,
+        name='enquiry_page'
+    ),
+
+    path(
+        'contact/',
+        views.contact_page,
+        name='contact_page'
+    ),
+
+
+    # ========================================================
     # ADMIN / DASHBOARD PAGES
     # ========================================================
 
     path(
+        'admin/login/',
+        views.admin_login_page,
+        name='admin_login_page'
+    ),
+
+    path(
         'admin/dashboard/',
-        lambda req:
-            redirect(
-                'http://127.0.0.1:5500/admin/dashboard/',
-                permanent=False
-            )
+        views.admin_dashboard_page,
+        name='admin_dashboard_page'
     ),
 
     path(
@@ -28,62 +66,6 @@ urlpatterns = [
     path(
         'django-admin/',
         lambda req: redirect('/admin/', permanent=False)
-    ),
-
-
-    # ========================================================
-    # BACKEND ROOT
-    # ========================================================
-
-    path(
-        '',
-        lambda request:
-            redirect(
-                '/admin/',
-                permanent=False
-            ),
-        name='backend_root'
-    ),
-
-
-    # ========================================================
-    # FRONTEND PAGE REDIRECTS
-    # ========================================================
-
-    path(
-        'login/',
-        lambda req:
-            redirect(
-                'http://127.0.0.1:5500/login/',
-                permanent=False
-            )
-    ),
-
-    path(
-        'signup/',
-        lambda req:
-            redirect(
-                'http://127.0.0.1:5500/signup/',
-                permanent=False
-            )
-    ),
-
-    path(
-        'enquiry/',
-        lambda req:
-            redirect(
-                'http://127.0.0.1:5500/enquiry/',
-                permanent=False
-            )
-    ),
-
-    path(
-        'contact/',
-        lambda req:
-            redirect(
-                'http://127.0.0.1:5500/contact/',
-                permanent=False
-            )
     ),
 
 

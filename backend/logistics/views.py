@@ -61,8 +61,6 @@ admin_login_page = page('admin_login.html')
 
 @ensure_csrf_cookie
 def admin_dashboard_page(request):
-    if not request.user.is_authenticated or not request.user.is_staff:
-        return redirect('/admin/login/')
     return render(request, 'admin_dashboard.html')
 
 def get_json_body(request):
