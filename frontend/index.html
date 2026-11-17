@@ -2619,7 +2619,11 @@ async function trackProduct() {
 
     if (map) map.remove();
     map = L.map('miniMap').setView(fromC, 6);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+    const mapTileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+    L.tileLayer(mapTileUrl, {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+      maxZoom: 19
+    }).addTo(map);
     L.marker(fromC).addTo(map).bindPopup('📍 From: ' + s.from_address);
     L.marker(toC).addTo(map).bindPopup('🏁 To: ' + s.to_address);
     L.polyline([fromC, toC], { color: '#ff2e63', weight: 4 }).addTo(map);
