@@ -9,6 +9,7 @@
     <!-- Icons -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="/static/js/app.js"></script>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
@@ -143,6 +144,606 @@
             font-weight: 600;
             text-decoration: none;
         }
+
+        /* =========================================================
+   PREMIUM SIGNUP PAGE
+   CSS ONLY
+   ========================================================= */
+
+body {
+    background: #080d18;
+}
+
+.overlay {
+    background: rgba(5, 10, 20, 0.48);
+    backdrop-filter: blur(4px);
+}
+
+section {
+    width: 430px;
+    max-width: 92%;
+    padding: 32px 38px;
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 24px;
+    background: rgba(12, 20, 35, 0.70);
+    backdrop-filter: blur(18px);
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+h1 {
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.inputbox {
+    border-bottom: 1px solid rgba(255,255,255,0.35);
+}
+
+.inputbox:focus-within {
+    border-bottom-color: #ff7a18;
+}
+
+.inputbox ion-icon {
+    color: #ff8c42;
+}
+
+button {
+    background: linear-gradient(135deg, #e85d04, #ff8c42);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 10px 25px rgba(232,93,4,0.25);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #d94f00, #ff7a18);
+    transform: translateY(-2px);
+}
+
+.link a {
+    color: #ff8c42;
+}
+
+/* =========================================================
+   ASHWA SIGNUP — MOBILE UX + PREMIUM ANIMATION
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+section {
+    animation: signupPanelIn .75s cubic-bezier(.16,1,.3,1) both;
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+.inputbox {
+    transition:
+        border-color .3s ease,
+        transform .3s ease;
+}
+
+.inputbox:focus-within {
+    transform: translateY(-2px);
+}
+
+button {
+    min-height: 48px;
+    position: relative;
+    overflow: hidden;
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+button:active {
+    transform: scale(.97);
+}
+
+button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.35),
+        transparent
+    );
+    transform: skewX(-20deg);
+    transition: left .6s ease;
+}
+
+button:hover::after {
+    left: 130%;
+}
+
+.link a {
+    transition: color .2s ease;
+}
+
+.link a:hover {
+    color: #ff8a3d;
+}
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 14px;
+    }
+
+    section {
+        width: 100%;
+        max-width: 430px;
+        padding: 27px 21px;
+        border-radius: 22px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .inputbox {
+        margin: 23px 0;
+    }
+
+    .inputbox input {
+        height: 48px;
+        font-size: 16px;
+    }
+
+    button {
+        min-height: 50px;
+    }
+}
+
+@media (max-width: 360px) {
+
+    section {
+        padding: 22px 17px;
+    }
+
+    h1 {
+        font-size: 1.55rem;
+    }
+}
+
+@keyframes signupPanelIn {
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    section,
+    button,
+    .inputbox {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* =========================================================
+   STEP 17 — FINAL PUBLIC UI/UX POLISH
+   ========================================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Better keyboard accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #ff6a00;
+  outline-offset: 3px;
+}
+
+/* Smooth image rendering */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Premium selection */
+::selection {
+  background: rgba(255,106,0,.20);
+  color: inherit;
+}
+
+/* Prevent accidental horizontal scrolling */
+body {
+  overflow-x: hidden;
+}
+
+/* Smooth interaction for clickable elements */
+a,
+button {
+  transition:
+    transform .2s ease,
+    opacity .2s ease,
+    box-shadow .2s ease,
+    background-color .2s ease;
+}
+
+/* Button press feedback */
+button:active,
+.btn:active,
+.login-btn:active,
+.search-btn:active {
+  transform: scale(.98);
+}
+
+/* Mobile touch optimization */
+@media (max-width: 700px) {
+
+  button,
+  .btn,
+  .login-btn,
+  .search-btn,
+  a {
+    touch-action: manipulation;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+
+  header {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .logo,
+  .site-logo {
+    max-width: 70%;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* =========================================================
+   STEP 21 — FINAL MOBILE-FIRST RESPONSIVE PASS
+   ========================================================= */
+
+/* ---------- TABLET ---------- */
+
+@media (max-width: 900px) {
+
+  .container,
+  .contact-card,
+  .issue-card,
+  section {
+    max-width: 94%;
+  }
+
+  .contact-card {
+    gap: 35px;
+  }
+
+  .bottom-cards {
+    gap: 16px;
+  }
+
+  .hero-content {
+    max-width: 90%;
+  }
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 700px) {
+
+  /* General spacing */
+  section {
+    width: calc(100% - 28px);
+  }
+
+  /* Header */
+  header {
+    min-height: 60px;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 600px;
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Columns become one column */
+  .left-column,
+  .right-column {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Form rows */
+  .input-row {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .input-row > * {
+    width: 100%;
+  }
+
+  /* Cards */
+  .bottom-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  /* Enquiry */
+  .enquiry-section {
+    padding: 35px 14px;
+  }
+
+  .issue-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Contact */
+  .contact-section {
+    padding: 35px 14px;
+  }
+
+  .contact-card {
+    width: 100%;
+    max-width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  /* Contact form */
+  .contact-form {
+    width: 100%;
+  }
+
+  /* Login / signup */
+  body:has(.overlay) {
+    padding: 14px;
+  }
+
+  body:has(.overlay) section {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+
+/* ---------- SMALL PHONES ---------- */
+
+@media (max-width: 480px) {
+
+  /* Header */
+  header {
+    padding: 12px 14px;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 560px;
+  }
+
+  .hero-content {
+    padding: 20px 12px;
+  }
+
+  .hero-content h1 {
+    font-size: 27px;
+  }
+
+  .hero-content p {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* Buttons */
+  .hero-buttons {
+    width: 100%;
+  }
+
+  .hero-buttons .btn,
+  .hero-buttons .secondary-btn {
+    width: 100%;
+  }
+
+  /* Cards */
+  .card,
+  .issue-card,
+  .contact-card {
+    padding: 22px 18px;
+  }
+
+  /* Form */
+  .field {
+    width: 100%;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+  }
+
+  /* Login */
+  body:has(.overlay) section {
+    padding: 26px 20px;
+    border-radius: 18px;
+  }
+
+  body:has(.overlay) h1 {
+    font-size: 25px;
+  }
+
+  /* Enquiry */
+  .issue-card h2 {
+    font-size: 22px;
+  }
+
+  /* Contact */
+  .contact-info h1 {
+    font-size: 25px;
+  }
+
+  .social-icons {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+}
+
+
+/* ---------- VERY SMALL PHONES ---------- */
+
+@media (max-width: 360px) {
+
+  header {
+    padding: 10px 12px;
+  }
+
+  .top-links {
+    gap: 8px;
+  }
+
+  .hero-content h1 {
+    font-size: 24px;
+  }
+
+  .hero-content p {
+    font-size: 12px;
+  }
+
+  .card,
+  .issue-card,
+  .contact-card {
+    padding: 18px 14px;
+  }
+
+  body:has(.overlay) {
+    padding: 10px;
+  }
+
+  body:has(.overlay) section {
+    padding: 22px 16px;
+  }
+}
+
+
+/* ---------- TOUCH DEVICES ---------- */
+
+@media (hover: none) and (pointer: coarse) {
+
+  .card:hover,
+  .issue-card:hover,
+  .contact-card:hover,
+  #trackingMapCard:hover {
+    transform: none;
+  }
+
+  .top-links a:hover::after {
+    width: 0;
+  }
+
+  button:hover,
+  .btn:hover,
+  .login-btn:hover,
+  .search-btn:hover {
+    transform: none;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    min-height: 46px;
+  }
+}
+
+
+/* ---------- ACCESSIBILITY ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
     </style>
 </head>
 
@@ -157,7 +758,7 @@
 
     <!-- SIGNUP FORM -->
     <section>
-        <form onsubmit="event.preventDefault(); signUp();">
+        <form id="signupForm">
             <h1>Create Account</h1>
 
             <div class="inputbox">
@@ -184,7 +785,7 @@
                 <label>Confirm Password</label>
             </div>
 
-            <button type="submit">Sign Up</button>
+            <button type="submit" id="signupBtn">Sign Up</button>
 
             <div class="link">
                 <p>Already have an account? <a href="/login/">Login</a></p>
@@ -194,23 +795,47 @@
 
     <script src="/static/js/app.js"></script>
 <script>
-async function signUp() {
+document.getElementById('signupForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
   const name = document.getElementById('fullname').value.trim();
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   const confirmPassword = document.getElementById('confirmPassword').value;
-  if (!name || !email || !password || !confirmPassword) return alert('Please fill all fields!');
-  if (password.length < 6) return alert('Password must be at least 6 characters long.');
-  if (password !== confirmPassword) return alert('Passwords do not match!');
+  const btn = document.getElementById('signupBtn');
+
+  if (!name || !email || !password || !confirmPassword) {
+    alert('Please fill all fields!');
+    return;
+  }
+  if (password.length < 6) {
+    alert('Password must be at least 6 characters long.');
+    return;
+  }
+  if (password !== confirmPassword) {
+    alert('Passwords do not match!');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerText = 'Creating Account...';
+
   try {
     const data = await apiPost('/api/signup/', {name, email, password});
-    if (data.user) {
+    if (data && data.user) {
       localStorage.setItem('user', JSON.stringify(data.user));
     }
+    if (data && data.token) {
+      localStorage.setItem('token', data.token);
+    }
     alert('Account created successfully! Welcome to Ashwa Logistics.');
-    window.location.href = '/';
-  } catch (err) { alert(err.message); }
-}
+    // Move to next page (Home with active session)
+    window.location.href = '/login';
+  } catch (err) {
+    alert(err.message || 'Signup failed.');
+    btn.disabled = false;
+    btn.innerText = 'Sign Up';
+  }
+});
 </script>
 
 </body>

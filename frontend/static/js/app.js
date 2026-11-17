@@ -176,3 +176,18 @@ document.addEventListener('click', function(e) {
     }
   }
 });
+
+// Explicit global window bindings
+if (typeof window !== 'undefined') {
+  window.BACKEND_URL = BACKEND_URL;
+  window.getApiUrl = getApiUrl;
+  window.getCookie = getCookie;
+  window.ensureCsrfToken = ensureCsrfToken;
+  window.getAuthHeaders = getAuthHeaders;
+  window.apiGet = apiGet;
+  window.apiPost = apiPost;
+  window.getCurrentUser = getCurrentUser;
+  window.renderAuth = renderAuth;
+  window.toggleProfile = toggleProfile;
+  window.logout = logout;
+}
