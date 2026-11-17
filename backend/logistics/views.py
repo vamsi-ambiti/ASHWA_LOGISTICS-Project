@@ -208,39 +208,44 @@ def login_api(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
-    d = get_json_body(request)
-    login_id = str(d.get('email', '')).strip().lower()
-    password = str(d.get('password', ''))
+    try:
+        d = get_json_body(request)
+        login_id = str(d.get('email', '')).strip().lower()
+        password = str(d.get('password', ''))
 
-    # Authenticate by username or email
-    user = authenticate(request, username=login_id, password=password)
-    if not user:
-        # Check if email corresponds to a username
-        try:
-            matched_user = User.objects.get(email__iexact=login_id)
-            user = authenticate(request, username=matched_user.username, password=password)
-        except User.DoesNotExist:
-            pass
+        # Authenticate by username or email
+        user = authenticate(request, username=login_id, password=password)
+        if not user:
+            # Check if email corresponds to a username
+            try:
+                matched_user = User.objects.filter(email__iexact=login_id).first()
+                if matched_user:
+                    user = authenticate(request, username=matched_user.username, password=password)
+            except Exception:
+                pass
 
-    if not user:
-        return JsonResponse({'error': 'Invalid email or password!'}, status=400)
-    
-    if not user.is_active:
-        return JsonResponse({'error': 'This account has been disabled. Contact support.'}, status=403)
+        if not user:
+            return JsonResponse({'error': 'Invalid email or password!'}, status=400)
+        
+        if not user.is_active:
+            return JsonResponse({'error': 'This account has been disabled. Contact support.'}, status=403)
 
-    login(request, user)
-    request.session.save()
+        login(request, user)
+        request.session.save()
 
-    return JsonResponse({
-        'message': 'Login successful',
-        'token': request.session.session_key,
-        'user': {
-            'id': user.id,
-            'name': user.get_full_name() or user.username,
-            'email': user.email,
-            'is_staff': user.is_staff
-        }
-    })
+        return JsonResponse({
+            'message': 'Login successful',
+            'token': request.session.session_key,
+            'user': {
+                'id': user.id,
+                'name': user.get_full_name() or user.username,
+                'email': user.email,
+                'is_staff': user.is_staff
+            }
+        })
+    except Exception as e:
+        print(f"[Login Error] {e}")
+        return JsonResponse({'error': f'Login server error: {str(e)}'}, status=500)
 
 @csrf_exempt
 def logout_api(request):
@@ -487,31 +492,36 @@ def admin_login_api(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
-    d = get_json_body(request)
-    username = str(d.get('username', '')).strip()
-    password = str(d.get('password', ''))
+    try:
+        d = get_json_body(request)
+        username = str(d.get('username', '')).strip()
+        password = str(d.get('password', ''))
 
-    user = authenticate(request, username=username, password=password)
-    if not user:
-        # Check if email was provided instead of username
-        try:
-            matched_user = User.objects.get(email__iexact=username)
-            user = authenticate(request, username=matched_user.username, password=password)
-        except User.DoesNotExist:
-            pass
+        user = authenticate(request, username=username, password=password)
+        if not user:
+            # Check if email was provided instead of username
+            try:
+                matched_user = User.objects.filter(email__iexact=username).first()
+                if matched_user:
+                    user = authenticate(request, username=matched_user.username, password=password)
+            except Exception:
+                pass
 
-    if not user or not user.is_staff:
-        return JsonResponse({'error': 'Invalid administrator credentials.'}, status=403)
+        if not user or not user.is_staff:
+            return JsonResponse({'error': 'Invalid administrator credentials.'}, status=403)
 
-    login(request, user)
-    request.session.save()
+        login(request, user)
+        request.session.save()
 
-    return JsonResponse({
-        'message': 'Admin login successful',
-        'token': request.session.session_key,
-        'admin': {'id': user.id, 'username': user.username, 'email': user.email},
-        'user': {'id': user.id, 'username': user.username, 'email': user.email, 'is_staff': user.is_staff}
-    })
+        return JsonResponse({
+            'message': 'Admin login successful',
+            'token': request.session.session_key,
+            'admin': {'id': user.id, 'username': user.username, 'email': user.email},
+            'user': {'id': user.id, 'username': user.username, 'email': user.email, 'is_staff': user.is_staff}
+        })
+    except Exception as e:
+        print(f"[Admin Login Error] {e}")
+        return JsonResponse({'error': f'Admin login server error: {str(e)}'}, status=500)
 
 @csrf_exempt
 def admin_logout_api(request):

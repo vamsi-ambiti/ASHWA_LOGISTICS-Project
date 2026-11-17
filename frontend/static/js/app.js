@@ -6,9 +6,12 @@
 // Auto-detect backend API host:
 // If running directly from Django on port 8000 (or default port), use relative URLs.
 // If running from separate frontend server (e.g. port 5500, 3000, 5173), target port 8000 on the same host.
-const BACKEND_URL = (window.location.port === '8000' || !window.location.port)
-  ? ''
-  : `${window.location.protocol}//${window.location.hostname || '127.0.0.1'}:8000`;
+if (typeof window !== 'undefined' && typeof window.BACKEND_URL === 'undefined') {
+  window.BACKEND_URL = (window.location.port === '8000' || !window.location.port)
+    ? ''
+    : `${window.location.protocol}//${window.location.hostname || '127.0.0.1'}:8000`;
+}
+var BACKEND_URL = (typeof window !== 'undefined' && window.BACKEND_URL) || '';
 
 function getApiUrl(endpoint) {
   if (endpoint.startsWith('http://') || endpoint.startsWith('https://')) {
@@ -17,7 +20,10 @@ function getApiUrl(endpoint) {
   return BACKEND_URL + endpoint;
 }
 
-let cachedCsrfToken = null;
+if (typeof window !== 'undefined' && typeof window.cachedCsrfToken === 'undefined') {
+  window.cachedCsrfToken = null;
+}
+var cachedCsrfToken = (typeof window !== 'undefined' && window.cachedCsrfToken) || null;
 
 function getCookie(name) {
   let cookieValue = null;
