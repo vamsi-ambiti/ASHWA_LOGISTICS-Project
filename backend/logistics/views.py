@@ -1,6 +1,8 @@
 import json
 import random
 import string
+import urllib.error
+import urllib.request
 from datetime import date, timedelta
 from decimal import Decimal
 
@@ -21,7 +23,6 @@ from .models import (
     ContactMessage,
 )
 
-from django.core.mail import send_mail
 from django.conf import settings
 
 def csrf_api(request):
@@ -70,6 +71,36 @@ def get_json_body(request):
         return json.loads(request.body.decode('utf-8') or '{}')
     except Exception:
         return {}
+
+
+def send_email_notification(to_email, subject, message):
+    if not to_email or not settings.RESEND_API_KEY or not settings.RESEND_FROM_EMAIL:
+        return False
+
+    payload = json.dumps({
+        'from': settings.RESEND_FROM_EMAIL,
+        'to': [to_email],
+        'subject': subject,
+        'text': message,
+    }).encode('utf-8')
+    request = urllib.request.Request(
+        'https://api.resend.com/emails',
+        data=payload,
+        headers={
+            'Authorization': f'Bearer {settings.RESEND_API_KEY}',
+            'Content-Type': 'application/json',
+        },
+        method='POST',
+    )
+
+    try:
+        with urllib.request.urlopen(request, timeout=settings.EMAIL_TIMEOUT) as response:
+            return 200 <= response.status < 300
+    except urllib.error.HTTPError as error:
+        print(f'Email provider rejected notification with HTTP {error.code}.')
+    except Exception as error:
+        print(f'Email notification failed ({type(error).__name__}).')
+    return False
 
 def serialize_tracking_update(u):
     return {
@@ -324,67 +355,31 @@ def shipment_create_api(request):
             updated_by=user
         )
 
-        # Send booking confirmation email
-        if (
-            user.email
-            and settings.EMAIL_ENABLED
-            and settings.EMAIL_HOST_USER
-            and settings.EMAIL_HOST_PASSWORD
-        ):
-            try:
-                send_mail(
-                    subject=f'Shipment Booking Confirmed - {shipment.product_id}',
-                    message=f"""
-Hello {user.get_full_name() or user.username},
+        booking_email = f"""A shipment has been booked with Ashwa Logistics.
 
-Your shipment has been successfully booked with Ashwa Logistics.
-
-Shipment Details
-----------------
 Tracking ID: {shipment.product_id}
 Status: {shipment.status}
-
-From:
-{shipment.from_address}
-
-To:
-{shipment.to_address}
-
-Package Type:
-{shipment.package_type}
-
-Weight:
-{shipment.weight_kg} kg
-
-Price:
-₹{shipment.price}
-
-Pickup Date:
-{shipment.pickup_date}
-
-Estimated Delivery:
-{shipment.estimated_delivery}
-
-Recipient:
-{shipment.recipient_name}
-
-Recipient Phone:
-{shipment.recipient_phone}
-
-Your shipment is now awaiting carrier pickup.
-
-Thank you for choosing Ashwa Logistics.
-
-Regards,
-Ashwa Logistics Team
-""",
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[user.email],
-                    fail_silently=True,
-                )
-            except Exception:
-                print(f"Shipment confirmation email failed for {shipment.product_id}.")
-
+From: {shipment.from_address}
+To: {shipment.to_address}
+Package type: {shipment.package_type}
+Weight: {shipment.weight_kg} kg
+Price: INR {shipment.price}
+Pickup date: {shipment.pickup_date}
+Estimated delivery: {shipment.estimated_delivery}
+Recipient: {shipment.recipient_name}
+Recipient phone: {shipment.recipient_phone}
+"""
+        send_email_notification(
+            settings.APP_NOTIFICATION_EMAIL,
+            f'New shipment booking: {shipment.product_id}',
+            booking_email,
+        )
+        if user.email and user.email.casefold() != settings.APP_NOTIFICATION_EMAIL.casefold():
+            send_email_notification(
+                user.email,
+                f'Shipment booking confirmed: {shipment.product_id}',
+                booking_email,
+            )
         return JsonResponse({
             'message': 'Shipment created successfully!',
             'shipment': serialize_shipment(
@@ -440,13 +435,25 @@ def enquiry_api(request):
         return JsonResponse({'error': 'Please fill all required fields.'}, status=400)
 
     user = get_authenticated_user(request)
-    Enquiry.objects.create(
+    enquiry = Enquiry.objects.create(
         user=user,
         name=name,
         email=email,
         phone=phone,
         comment=comment,
         status='PENDING'
+    )
+    send_email_notification(
+        settings.APP_NOTIFICATION_EMAIL,
+        f'New customer enquiry #{enquiry.id}',
+        f"""New customer enquiry received.
+
+Name: {name}
+Email: {email}
+Phone: {phone or 'Not provided'}
+Message:
+{comment}
+""",
     )
     return JsonResponse({'message': 'Your enquiry has been received. Our team will contact you shortly!'})
 
@@ -465,12 +472,24 @@ def contact_api(request):
         return JsonResponse({'error': 'Please fill all required fields.'}, status=400)
 
     user = get_authenticated_user(request)
-    ContactMessage.objects.create(
+    contact_message = ContactMessage.objects.create(
         user=user,
         name=name,
         email=email,
         phone=phone,
         message=message
+    )
+    send_email_notification(
+        settings.APP_NOTIFICATION_EMAIL,
+        f'New contact message #{contact_message.id}',
+        f"""New contact message received.
+
+Name: {name}
+Email: {email}
+Phone: {phone or 'Not provided'}
+Message:
+{message}
+""",
     )
     return JsonResponse({'message': 'Thank you! Your message has been sent successfully.'})
 
