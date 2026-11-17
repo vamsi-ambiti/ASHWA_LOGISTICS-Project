@@ -325,7 +325,12 @@ def shipment_create_api(request):
         )
 
         # Send booking confirmation email
-        if user.email:
+        if (
+            user.email
+            and settings.EMAIL_ENABLED
+            and settings.EMAIL_HOST_USER
+            and settings.EMAIL_HOST_PASSWORD
+        ):
             try:
                 send_mail(
                     subject=f'Shipment Booking Confirmed - {shipment.product_id}',
@@ -375,10 +380,10 @@ Ashwa Logistics Team
 """,
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[user.email],
-                    fail_silently=False,
+                    fail_silently=True,
                 )
-            except Exception as email_error:
-                print(f"Email sending failed: {email_error}")
+            except Exception:
+                print(f"Shipment confirmation email failed for {shipment.product_id}.")
 
         return JsonResponse({
             'message': 'Shipment created successfully!',
