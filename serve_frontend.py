@@ -62,12 +62,8 @@ ROUTE_MAP = {
 
     "/admin/dashboard": FRONTEND_DIR / "admin_dashboard.html",
     "/admin/dashboard/": FRONTEND_DIR / "admin_dashboard.html",
-    "/admin/dashboard.html": FRONTEND_DIR / "admin_dashboard.html",
-    "/admin/dashboard/index.html": FRONTEND_DIR / "admin_dashboard.html",
+    "/admin_dashboard.html": FRONTEND_DIR / "admin_dashboard.html",
     "/frontend/admin_dashboard.html": FRONTEND_DIR / "admin_dashboard.html",
-    "/frontend/admin/dashboard/index.html": FRONTEND_DIR / "admin_dashboard.html",
-    "/admin/login/index.html": FRONTEND_DIR / "admin_login.html",
-    "/frontend/admin/login/index.html": FRONTEND_DIR / "admin_login.html",
 }
 
 class FrontendRequestHandler(http.server.SimpleHTTPRequestHandler):

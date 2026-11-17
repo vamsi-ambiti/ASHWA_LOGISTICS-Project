@@ -6,12 +6,9 @@
 // Auto-detect backend API host:
 // If running directly from Django on port 8000 (or default port), use relative URLs.
 // If running from separate frontend server (e.g. port 5500, 3000, 5173), target port 8000 on the same host.
-if (typeof window !== 'undefined' && typeof window.BACKEND_URL === 'undefined') {
-  window.BACKEND_URL = (window.location.port === '8000' || !window.location.port)
-    ? ''
-    : `${window.location.protocol}//${window.location.hostname || '127.0.0.1'}:8000`;
-}
-var BACKEND_URL = (typeof window !== 'undefined' && window.BACKEND_URL) || '';
+const BACKEND_URL = (window.location.port === '8000' || !window.location.port)
+  ? ''
+  : `${window.location.protocol}//${window.location.hostname || '127.0.0.1'}:8000`;
 
 function getApiUrl(endpoint) {
   if (endpoint.startsWith('http://') || endpoint.startsWith('https://')) {
@@ -20,10 +17,7 @@ function getApiUrl(endpoint) {
   return BACKEND_URL + endpoint;
 }
 
-if (typeof window !== 'undefined' && typeof window.cachedCsrfToken === 'undefined') {
-  window.cachedCsrfToken = null;
-}
-var cachedCsrfToken = (typeof window !== 'undefined' && window.cachedCsrfToken) || null;
+let cachedCsrfToken = null;
 
 function getCookie(name) {
   let cookieValue = null;
@@ -105,20 +99,26 @@ async function apiPost(url, payload = {}) {
 }
 
 async function getCurrentUser() {
+  const localUserStr = localStorage.getItem('user');
+  let cachedUser = null;
+  if (localUserStr) {
+    try { cachedUser = JSON.parse(localUserStr); } catch (e) {}
+  }
+
   try {
     const res = await apiGet('/api/me/');
     if (res && res.authenticated && res.user) {
       localStorage.setItem('user', JSON.stringify(res.user));
       return res.user;
+    } else if (res && !res.authenticated && cachedUser && localStorage.getItem('token')) {
+      return cachedUser;
     } else {
       localStorage.removeItem('user');
       localStorage.removeItem('token');
       return null;
     }
   } catch (e) {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    return null;
+    return cachedUser;
   }
 }
 
@@ -182,18 +182,3 @@ document.addEventListener('click', function(e) {
     }
   }
 });
-
-// Explicit global window bindings
-if (typeof window !== 'undefined') {
-  window.BACKEND_URL = BACKEND_URL;
-  window.getApiUrl = getApiUrl;
-  window.getCookie = getCookie;
-  window.ensureCsrfToken = ensureCsrfToken;
-  window.getAuthHeaders = getAuthHeaders;
-  window.apiGet = apiGet;
-  window.apiPost = apiPost;
-  window.getCurrentUser = getCurrentUser;
-  window.renderAuth = renderAuth;
-  window.toggleProfile = toggleProfile;
-  window.logout = logout;
-}

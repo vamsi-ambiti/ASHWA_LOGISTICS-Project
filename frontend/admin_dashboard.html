@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="/static/css/admin.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="/static/js/app.js"></script>
 </head>
 <body>
 
@@ -457,6 +456,7 @@
   <div id="toastContainer"></div>
 
   <!-- Scripts -->
+  <script src="/static/js/app.js"></script>
   <script>
     // Live Clock
     function updateClock() {
@@ -613,8 +613,6 @@
 
       } catch (err) {
         if (err.message && err.message.toLowerCase().includes('admin')) {
-          localStorage.removeItem('user');
-          localStorage.removeItem('token');
           location.href = '/admin/login/';
         } else {
           showToast(err.message, 'error');
@@ -2096,8 +2094,6 @@ document.addEventListener('keydown', function(event) {
       try {
         await apiPost('/api/admin/logout/', {});
       } catch (e) {}
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
       location.href = '/admin/login/';
     }
 
@@ -2105,8 +2101,6 @@ document.addEventListener('keydown', function(event) {
     window.onload = async () => {
       const user = await getCurrentUser();
       if (!user || !user.is_staff) {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
         location.href = '/admin/login/';
         return;
       }

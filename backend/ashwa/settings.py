@@ -32,12 +32,14 @@ ROOT_DIR = BASE_DIR.parent
 FRONTEND_DIR = ROOT_DIR / 'frontend'
 
 # Security settings
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'ashwa-production-secret-key-fallback-render-2026')
 DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() == 'true'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    raise RuntimeError('DJANGO_SECRET_KEY must be configured in the environment.')
 ALLOWED_HOSTS = [
-    h.strip()
-    for h in os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,.onrender.com,testserver').split(',')
-    if h.strip()
+    host.strip()
+    for host in os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost,testserver').split(',')
+    if host.strip()
 ]
 
 # Application definition
@@ -55,7 +57,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -92,14 +93,38 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ashwa.wsgi.application'
 
-default_db_url = os.getenv('DATABASE_URL') or f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
-DATABASES = {
-    'default': dj_database_url.config(
-        default=default_db_url,
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
-}
+# Database configuration: use DATABASE_URL, explicit MySQL environment values, or local SQLite.
+def configure_database():
+    database_url = os.getenv('DATABASE_URL')
+    if database_url:
+        return {
+            'default': dj_database_url.config(
+                default=database_url,
+                conn_max_age=600,
+                conn_health_checks=True,
+            )
+        }
+
+    if os.getenv('DB_ENGINE', '').strip() == 'django.db.backends.mysql':
+        return {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': os.getenv('DB_NAME', 'ashwa_logistics'),
+                'USER': os.getenv('DB_USER', 'root'),
+                'PASSWORD': os.getenv('DB_PASSWORD', ''),
+                'HOST': os.getenv('DB_HOST', '127.0.0.1'),
+                'PORT': os.getenv('DB_PORT', '3306'),
+            }
+        }
+
+    return {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
+DATABASES = configure_database()
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -125,8 +150,6 @@ if (BASE_DIR / 'static').exists():
 
 STATICFILES_DIRS = STATIC_DIRS
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-WHITENOISE_USE_FINDERS = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -157,8 +180,6 @@ CORS_ALLOW_HEADERS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://*.onrender.com',
-    'https://ashwa-logistics.onrender.com',
     'http://127.0.0.1:5500',
     'http://localhost:5500',
     'http://127.0.0.1:5501',

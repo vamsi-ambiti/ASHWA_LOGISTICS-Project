@@ -61,6 +61,8 @@ admin_login_page = page('admin_login.html')
 
 @ensure_csrf_cookie
 def admin_dashboard_page(request):
+    if not request.user.is_authenticated or not request.user.is_staff:
+        return redirect('/admin/login/')
     return render(request, 'admin_dashboard.html')
 
 def get_json_body(request):
@@ -113,32 +115,19 @@ def serialize_shipment(s, include_history=False):
 # AUTHENTICATION & PROFILE APIS
 # ==========================================
 
-from django.contrib.sessions.models import Session
-
 def get_authenticated_user(request):
     """
-    Authenticate a normal customer/admin request using:
-    1. Standard Django session cookie (request.user)
-    2. Django session token (X-Session-Token header) validated against Session store
+    Authenticate a normal customer/admin request
+    using Django's built-in session authentication.
+
+    Do NOT trust X-User-Id or X-Session-Token because this project
+    uses Django session authentication.
     """
+
     user = getattr(request, 'user', None)
+
     if user and user.is_authenticated and user.is_active:
         return user
-
-    token = request.headers.get('X-Session-Token') or request.META.get('HTTP_X_SESSION_TOKEN')
-    if token:
-        try:
-            session = Session.objects.filter(session_key=token, expire_date__gt=timezone.now()).first()
-            if session:
-                data = session.get_decoded()
-                user_id = data.get('_auth_user_id')
-                if user_id:
-                    matched_user = User.objects.filter(pk=user_id, is_active=True).first()
-                    if matched_user:
-                        request.user = matched_user
-                        return matched_user
-        except Exception:
-            pass
 
     return None
 
@@ -190,7 +179,8 @@ def signup_api(request):
     )
     # Auto-login after signup
     login(request, user)
-    request.session.save()
+    if not request.session.session_key:
+        request.session.save()
 
     return JsonResponse({
         'message': 'Account created successfully',
@@ -208,44 +198,40 @@ def login_api(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
-    try:
-        d = get_json_body(request)
-        login_id = str(d.get('email', '')).strip().lower()
-        password = str(d.get('password', ''))
+    d = get_json_body(request)
+    login_id = str(d.get('email', '')).strip().lower()
+    password = str(d.get('password', ''))
 
-        # Authenticate by username or email
-        user = authenticate(request, username=login_id, password=password)
-        if not user:
-            # Check if email corresponds to a username
-            try:
-                matched_user = User.objects.filter(email__iexact=login_id).first()
-                if matched_user:
-                    user = authenticate(request, username=matched_user.username, password=password)
-            except Exception:
-                pass
+    # Authenticate by username or email
+    user = authenticate(request, username=login_id, password=password)
+    if not user:
+        # Check if email corresponds to a username
+        try:
+            matched_user = User.objects.get(email__iexact=login_id)
+            user = authenticate(request, username=matched_user.username, password=password)
+        except User.DoesNotExist:
+            pass
 
-        if not user:
-            return JsonResponse({'error': 'Invalid email or password!'}, status=400)
-        
-        if not user.is_active:
-            return JsonResponse({'error': 'This account has been disabled. Contact support.'}, status=403)
+    if not user:
+        return JsonResponse({'error': 'Invalid email or password!'}, status=400)
+    
+    if not user.is_active:
+        return JsonResponse({'error': 'This account has been disabled. Contact support.'}, status=403)
 
-        login(request, user)
+    login(request, user)
+    if not request.session.session_key:
         request.session.save()
 
-        return JsonResponse({
-            'message': 'Login successful',
-            'token': request.session.session_key,
-            'user': {
-                'id': user.id,
-                'name': user.get_full_name() or user.username,
-                'email': user.email,
-                'is_staff': user.is_staff
-            }
-        })
-    except Exception as e:
-        print(f"[Login Error] {e}")
-        return JsonResponse({'error': f'Login server error: {str(e)}'}, status=500)
+    return JsonResponse({
+        'message': 'Login successful',
+        'token': request.session.session_key,
+        'user': {
+            'id': user.id,
+            'name': user.get_full_name() or user.username,
+            'email': user.email,
+            'is_staff': user.is_staff
+        }
+    })
 
 @csrf_exempt
 def logout_api(request):
@@ -492,36 +478,35 @@ def admin_login_api(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
-    try:
-        d = get_json_body(request)
-        username = str(d.get('username', '')).strip()
-        password = str(d.get('password', ''))
+    d = get_json_body(request)
+    username = str(d.get('username', '')).strip()
+    password = str(d.get('password', ''))
 
-        user = authenticate(request, username=username, password=password)
-        if not user:
-            # Check if email was provided instead of username
-            try:
-                matched_user = User.objects.filter(email__iexact=username).first()
-                if matched_user:
-                    user = authenticate(request, username=matched_user.username, password=password)
-            except Exception:
-                pass
+    user = authenticate(request, username=username, password=password)
+    if not user or not user.is_staff or not user.is_active:
+        # Resolve email only among active staff accounts. A customer can have
+        # the same email as an administrator in this database.
+        matched_user = User.objects.filter(
+            email__iexact=username,
+            is_staff=True,
+            is_active=True,
+        ).order_by('id').first()
+        if matched_user:
+            user = authenticate(request, username=matched_user.username, password=password)
 
-        if not user or not user.is_staff:
-            return JsonResponse({'error': 'Invalid administrator credentials.'}, status=403)
+    if not user or not user.is_staff or not user.is_active:
+        return JsonResponse({'error': 'Invalid administrator credentials.'}, status=403)
 
-        login(request, user)
+    login(request, user)
+    if not request.session.session_key:
         request.session.save()
 
-        return JsonResponse({
-            'message': 'Admin login successful',
-            'token': request.session.session_key,
-            'admin': {'id': user.id, 'username': user.username, 'email': user.email},
-            'user': {'id': user.id, 'username': user.username, 'email': user.email, 'is_staff': user.is_staff}
-        })
-    except Exception as e:
-        print(f"[Admin Login Error] {e}")
-        return JsonResponse({'error': f'Admin login server error: {str(e)}'}, status=500)
+    return JsonResponse({
+        'message': 'Admin login successful',
+        'token': request.session.session_key,
+        'admin': {'id': user.id, 'username': user.username, 'email': user.email},
+        'user': {'id': user.id, 'username': user.username, 'email': user.email, 'is_staff': user.is_staff}
+    })
 
 @csrf_exempt
 def admin_logout_api(request):

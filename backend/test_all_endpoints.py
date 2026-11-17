@@ -35,9 +35,9 @@ def run_tests():
             print(f"[FAIL] {name} {extra}")
             failed += 1
 
-    # 1. Unified Django Frontend & Backend Routing Tests
+    # 1. Django Backend Routing & Decoupling Tests
     res = client.get('/')
-    assert_test("Homepage (/) renders successfully", res.status_code == 200)
+    assert_test("Backend Root (/) redirects to /admin/", res.status_code == 302 and res.url == '/admin/')
 
     res = client.get('/admin/', follow=True)
     assert_test("Django Admin (/admin/) renders official Django page", res.status_code == 200)
@@ -48,10 +48,10 @@ def run_tests():
     res = client.get('/api/')
     assert_test("Backend API Index (/api/) returns JSON info", res.status_code == 200 and 'service' in res.json())
 
-    # Verify public customer pages render directly (HTTP 200)
-    for path, label in [('/login/', 'Login'), ('/signup/', 'Signup'), ('/enquiry/', 'Enquiry'), ('/contact/', 'Contact'), ('/admin/login/', 'Admin Login'), ('/admin/dashboard/', 'Admin Dashboard')]:
+    # Verify website paths redirect to Frontend server (Port 5500)
+    for path, label in [('/login/', 'Login'), ('/signup/', 'Signup'), ('/enquiry/', 'Enquiry'), ('/contact/', 'Contact')]:
         res = client.get(path)
-        assert_test(f"Public Page {path} renders directly", res.status_code == 200)
+        assert_test(f"Backend {path} redirects to Frontend Server", res.status_code == 302 and '5500' in res.url)
 
     # 2. Public Tracking API
     res = client.get('/api/shipments/PROD88291043/')
@@ -101,9 +101,9 @@ def run_tests():
     )
     assert_test("Admin Login (admin / admin123)", res.status_code == 200)
 
-    # Operations Dashboard direct view
+    # Operations Dashboard redirect on backend port
     res = client.get('/admin/dashboard/')
-    assert_test("Backend /admin/dashboard/ renders dashboard page", res.status_code == 200)
+    assert_test("Backend /admin/dashboard/ redirects to Frontend port 5500", res.status_code == 302 and '5500' in res.url)
 
     # Admin Dashboard Metrics API
     res = client.get('/api/admin/dashboard/')
