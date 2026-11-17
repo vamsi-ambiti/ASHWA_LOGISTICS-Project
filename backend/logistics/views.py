@@ -31,8 +31,8 @@ def api_index(request):
     return JsonResponse({
         'service': 'Ashwa Logistics Backend API',
         'status': 'online',
-        'django_admin': 'http://127.0.0.1:8000/admin/',
-        'frontend_website': 'http://127.0.0.1:5500/',
+        'django_admin': request.build_absolute_uri('/admin/'),
+        'frontend_website': request.build_absolute_uri('/'),
         'endpoints': {
             'csrf': '/api/csrf/',
             'me': '/api/me/',
